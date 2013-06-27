@@ -20,6 +20,8 @@
 # arch detection heuristic used by bindir/mysql_config.
 %global mysql_config %{_libdir}/mysql/mysql_config
 
+%global with_json     1
+
 # Build mysql/mysqli/pdo extensions using libmysqlclient or only mysqlnd
 %global with_libmysql 0
 
@@ -184,7 +186,7 @@ language to Apache HTTP Server.
 %package cli
 Group: Development/Languages
 Summary: Command-line interface for PHP
-Requires: %{real_name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: %{name}-cgi = %{version}-%{release}, %{name}-cgi%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-cgi = %{version}-%{release}, %{real_name}-cgi%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-pcntl, %{real_name}-pcntl%{?_isa}
@@ -204,6 +206,7 @@ Summary: PHP FastCGI Process Manager
 # Zend is licensed under Zend
 # TSRM and fpm are licensed under BSD
 License: PHP and Zend and BSD
+Provides: %{real_name}-sqlite3
 Requires: %{real_name}-common%{?_isa} = %{version}-%{release}
 Requires(pre): /usr/sbin/useradd
 Provides: %{name}-fpm = %{version}-%{release}
@@ -257,8 +260,12 @@ Provides: %{name}-sockets, %{name}-sockets%{?_isa}
 Provides: %{name}-spl, %{name}-spl%{?_isa}
 Provides: %{name}-standard = %{version}, %{name}-standard%{?_isa} = %{version}
 Provides: %{name}-tokenizer, %{name}-tokenizer%{?_isa}
-# Temporary circular dep (to remove for bootstrap)
-Requires: %{name}-pecl-jsonc%{?_isa}
+
+%if %{with_json
+Provides: %{name}-json, %{name}-json%{?_isa}
+Obsoletes: %{name}-pecl-json < 1.2.2
+%endif
+
 %if %{with_zip}
 Provides: %{name}-zip, %{name}-zip%{?_isa}
 Obsoletes: %{name}-pecl-zip < 1.11
@@ -294,8 +301,11 @@ Provides: %{real_name}-sockets, %{real_name}-sockets%{?_isa}
 Provides: %{real_name}-spl, %{real_name}-spl%{?_isa}
 Provides: %{real_name}-standard = %{version}, %{real_name}-standard%{?_isa} = %{version}
 Provides: %{real_name}-tokenizer, %{real_name}-tokenizer%{?_isa}
-# Temporary circular dep (to remove for bootstrap)
-Requires: %{real_name}-pecl-jsonc%{?_isa}
+
+%if %{with_json}
+Provides: %{real_name}-json, %{real_name}-json%{?_isa}
+Obsoletes: %{real_name}-pecl-json < 1.2.2
+%endif
 %if %{with_zip}
 Provides: %{real_name}-zip, %{real_name}-zip%{?_isa}
 Obsoletes: %{real_name}-pecl-zip < 1.11
@@ -324,8 +334,7 @@ Provides: %{real_name}-zts-devel = %{version}-%{release}
 Provides: %{name}-zts-devel%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-zts-devel%{?_isa} = %{version}-%{release}
 %endif
-# Temporary circular dep (to remove for bootstrap)
-Requires: %{name}-pecl-jsonc-devel%{?_isa}
+Requires: %{name}-json-devel%{?_isa}
 
 %description devel
 The php-devel package contains the files needed for building PHP
@@ -499,7 +508,7 @@ Summary: Modules for PHP script using system process interfaces
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: php-posix, php-posix%{?_isa}
 Provides: php-shmop, php-shmop%{?_isa}
 Provides: php-sysvsem, php-sysvsem%{?_isa}
@@ -517,7 +526,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01, except
 # pdo_odbc is licensed under PHP version 3.0
 License: PHP
-Requires: php-pdo%{?_isa} = %{version}-%{release}
+Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
 Provides: php_database
 Provides: php-pdo_odbc, php-pdo_odbc%{?_isa}
 BuildRequires: unixODBC-devel
@@ -549,10 +558,13 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 BuildRequires:  firebird-devel
-Requires: php-pdo%{?_isa} = %{version}-%{release}
-Provides: php_database
-Provides: php-firebird, php-firebird%{?_isa}
-Provides: php-pdo_firebird, php-pdo_firebird%{?_isa}
+Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
+Provides: %{name}_database
+Provides: %{real_name}_database
+Provides: %{name}-firebird, %{name}-firebird%{?_isa}
+Provides: %{real_name}-firebird, %{real_name}-firebird%{?_isa}
+Provides: %{name}-pdo_firebird, %{name}-pdo_firebird%{?_isa}
+Provides: %{real_name}-pdo_firebird, %{real_name}-pdo_firebird%{?_isa}
 
 %description interbase
 The php-interbase package contains a dynamic shared object that will add
@@ -572,7 +584,9 @@ Summary: A module for PHP applications that query SNMP-managed devices
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: php-common%{?_isa} = %{version}-%{release}, net-snmp
+Requires: %{name}-common%{?_isa} = %{version}-%{release}, net-snmp
+Provides: %{name}-snmp = %{version}-%{release}
+Provides: %{real_name}-snmp = %{version}-%{release}
 BuildRequires: net-snmp-devel
 
 %description snmp
@@ -586,14 +600,21 @@ Summary: A module for PHP applications which use XML
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: php-common%{?_isa} = %{version}-%{release}
-Provides: php-dom, php-dom%{?_isa}
-Provides: php-domxml, php-domxml%{?_isa}
-Provides: php-simplexml, php-simplexml%{?_isa}
-Provides: php-wddx, php-wddx%{?_isa}
-Provides: php-xmlreader, php-xmlreader%{?_isa}
-Provides: php-xmlwriter, php-xmlwriter%{?_isa}
-Provides: php-xsl, php-xsl%{?_isa}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-dom, %{name}-dom%{?_isa}
+Provides: %{real_name}-dom, %{real_name}-dom%{?_isa}
+Provides: %{name}-domxml, %{name}-domxml%{?_isa}
+Provides: %{real_name}-domxml, %{real_name}-domxml%{?_isa}
+Provides: %{name}-simplexml, %{name}-simplexml%{?_isa}
+Provides: %{real_name}-simplexml, %{real_name}-simplexml%{?_isa}
+Provides: %{name}-wddx, %{name}-wddx%{?_isa}
+Provides: %{real_name}-wddx, %{real_name}-wddx%{?_isa}
+Provides: %{name}-xmlreader, %{name}-xmlreader%{?_isa}
+Provides: %{real_name}-xmlreader, %{real_name}-xmlreader%{?_isa}
+Provides: %{name}-xmlwriter, %{name}-xmlwriter%{?_isa}
+Provides: %{real_name}-xmlwriter, %{real_name}-xmlwriter%{?_isa}
+Provides: %{name}-xsl, %{name}-xsl%{?_isa}
+Provides: %{real_name}-xsl, %{real_name}-xsl%{?_isa}
 BuildRequires: libxslt-devel >= 1.0.18-1, libxml2-devel >= 2.4.14-1
 
 %description xml
@@ -607,7 +628,9 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01, except
 # libXMLRPC is licensed under BSD
 License: PHP and BSD
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-xmlrpc = %{version}-%{release}
+Provides: %{real_name}-xmlrpc = %{version}-%{release}
 
 %description xmlrpc
 The php-xmlrpc package contains a dynamic shared object that will add
@@ -621,7 +644,9 @@ Group: Development/Languages
 # onigurama is licensed under BSD
 # ucgendat is licensed under OpenLDAP
 License: PHP and LGPLv2 and BSD and OpenLDAP
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-mbstring = %{version}-%{release}
+Provides: %{real_name}-mbstring = %{version}-%{release}
 
 %description mbstring
 The php-mbstring package contains a dynamic shared object that will add
@@ -638,6 +663,8 @@ License: PHP
 License: PHP and BSD
 %endif
 Requires: php-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-gd = %{version}-%{release}
+Provides: %{real_name}-gd = %{version}-%{release}
 BuildRequires: t1lib-devel
 %if %{with_libgd}
 BuildRequires: gd-devel >= 2.1.0
@@ -660,7 +687,9 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01, except
 # libbcmath is licensed under LGPLv2+
 License: PHP and LGPLv2+
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-bcmath = %{version}-%{release}
+Provides: %{real_name}-bcmath = %{version}-%{release}
 
 %description bcmath
 The php-bcmath package contains a dynamic shared object that will add
@@ -672,7 +701,9 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 BuildRequires: gmp-devel
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-gmp = %{version}-%{release}
+Provides: %{real_name}-gmp = %{version}-%{release}
 
 %description gmp
 These functions allow you to work with arbitrary-length integers
@@ -684,7 +715,9 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 BuildRequires: %{db_devel}, tokyocabinet-devel
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-dba = %{version}-%{release}
+Provides: %{real_name}-dba = %{version}-%{release}
 
 %description dba
 The php-dba package contains a dynamic shared object that will add
@@ -695,7 +728,9 @@ Summary: Standard PHP module provides mcrypt library support
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-mcrypt = %{version}-%{release}
+Provides: %{real_name}-mcrypt = %{version}-%{release}
 BuildRequires: libmcrypt-devel
 
 %description mcrypt
@@ -707,7 +742,9 @@ Summary: Standard PHP module provides tidy library support
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-tidy = %{version}-%{release}
+Provides: %{real_name}-tidy = %{version}-%{release}
 BuildRequires: libtidy-devel
 
 %description tidy
@@ -719,9 +756,12 @@ Summary: MSSQL database module for PHP
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: php-pdo%{?_isa} = %{version}-%{release}
+Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
 BuildRequires: freetds-devel
-Provides: php-pdo_dblib, php-pdo_dblib%{?_isa}
+Provides: %{name}-mssql = %{version}-%{release}
+Provides: %{real_name}-mssql = %{version}-%{release}
+Provides: %{name}-pdo_dblib, %{name}-pdo_dblib
+Provides: %{real_name}-pdo_dblib, %{real_name}-pdo_dblib
 
 %description mssql
 The php-mssql package contains a dynamic shared object that will
@@ -732,10 +772,12 @@ database server which supports TDS can be accessed.
 %package embedded
 Summary: PHP library for embedding in applications
 Group: System Environment/Libraries
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
 # doing a real -devel package for just the .so symlink is a bit overkill
-Provides: php-embedded-devel = %{version}-%{release}
-Provides: php-embedded-devel%{?_isa} = %{version}-%{release}
+Provides: %{name}-embedded = %{version}-%{release}
+Provides: %{real_name}-embedded = %{version}-%{release}
+Provides: %{name}-embedded-devel = %{version}-%{release}
+Provides: %{real_name}-embedded-devel = %{version}-%{release}
 
 %description embedded
 The php-embedded package contains a library which can be embedded
@@ -746,7 +788,9 @@ Summary: A module for PHP applications for using pspell interfaces
 Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-pspell = %{version}-%{release}
+Provides: %{real_name}-pspell = %{version}-%{release}
 BuildRequires: aspell-devel >= 0.50.0
 
 %description pspell
@@ -758,7 +802,9 @@ Summary: A module for PHP applications for using the recode library
 Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-recode = %{version}-%{release}
+Provides: %{real_name}-recode = %{version}-%{release}
 BuildRequires: recode-devel
 
 %description recode
@@ -770,7 +816,9 @@ Summary: Internationalization extension for PHP applications
 Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-intl = %{version}-%{release}
+Provides: %{real_name}-intl = %{version}-%{release}
 BuildRequires: libicu-devel >= 4.0
 
 %description intl
@@ -782,7 +830,9 @@ Summary: Human Language and Character Encoding Support
 Group: System Environment/Libraries
 # All files licensed under PHP version 3.0
 License: PHP
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-enchant = %{version}-%{release}
+Provides: %{real_name}-enchant = %{version}-%{release}
 BuildRequires: enchant-devel >= 1.2.4
 
 %description enchant
@@ -1032,6 +1082,11 @@ build --libdir=%{_libdir}/php \
       --with-pdo-sqlite=shared,%{_prefix} \
       --with-pdo-dblib=shared,%{_prefix} \
       --with-sqlite3=shared,%{_prefix} \
+%if %{with_json}
+      --enable-json=shared \
+%else
+      --disable-json
+%endif
 %if %{with_zip}
       --enable-zip=shared \
 %endif
@@ -1160,6 +1215,11 @@ build --includedir=%{_includedir}/php-zts \
       --with-pdo-sqlite=shared,%{_prefix} \
       --with-pdo-dblib=shared,%{_prefix} \
       --with-sqlite3=shared,%{_prefix} \
+%if %{with_json}
+      --enable-json=shared \
+%else
+      --disable-json
+%endif
 %if %{with_zip}
       --enable-zip=shared \
 %endif
@@ -1367,6 +1427,9 @@ for mod in pgsql odbc ldap snmp xmlrpc imap \
     enchant phar fileinfo intl \
     mcrypt tidy pdo_dblib mssql pspell curl wddx \
     posix shmop sysvshm sysvsem sysvmsg recode xml \
+%if %{with_json}
+    json \
+%endif
 %if %{with_libmysql}
     mysql mysqli pdo_mysql \
 %endif
@@ -1440,6 +1503,9 @@ cat files.curl files.phar files.fileinfo \
     files.exif files.gettext files.iconv files.calendar \
     files.ftp files.bz2 files.ctype files.sockets \
     files.tokenizer > files.common
+%if %{with_json}
+cat files.json >> files.common
+%endif
 %if %{with_zip}
 cat files.zip >> files.common
 %endif
@@ -1610,6 +1676,11 @@ exit 0
 
 
 %changelog
+* Thu Jun 27 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.0-3.ius
+- updated Requires and Provides
+- re-enable JSON extension, as JSONC extension is only beta
+- updated strip.sh to not remove JSON
+
 * Fri Jun 21 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.0-2.ius
 - port from fedora's php-5.5.0-1.fc19.src.rpm
 
