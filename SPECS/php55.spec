@@ -261,7 +261,7 @@ Provides: %{name}-spl, %{name}-spl%{?_isa}
 Provides: %{name}-standard = %{version}, %{name}-standard%{?_isa} = %{version}
 Provides: %{name}-tokenizer, %{name}-tokenizer%{?_isa}
 
-%if %{with_json
+%if %{with_json}
 Provides: %{name}-json, %{name}-json%{?_isa}
 Obsoletes: %{name}-pecl-json < 1.2.2
 %endif
