@@ -186,7 +186,7 @@ language to Apache HTTP Server.
 %package cli
 Group: Development/Languages
 Summary: Command-line interface for PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-cgi = %{version}-%{release}, %{name}-cgi%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-cgi = %{version}-%{release}, %{real_name}-cgi%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-pcntl, %{real_name}-pcntl%{?_isa}
@@ -207,7 +207,7 @@ Summary: PHP FastCGI Process Manager
 # TSRM and fpm are licensed under BSD
 License: PHP and Zend and BSD
 Provides: %{real_name}-sqlite3
-Requires: %{real_name}-common%{?_isa} = %{version}-%{release}
+Requires: %{real_name}-common = %{version}-%{release}
 Requires(pre): /usr/sbin/useradd
 Provides: %{name}-fpm = %{version}-%{release}
 Provides: %{real_name}-fpm = %{version}-%{release}
@@ -231,6 +231,8 @@ Summary: Common files for PHP
 # regex, libmagic are licensed under BSD
 License: PHP and BSD
 # ABI/API check - Arch specific
+Provides: %{name}-common = %{version}-%{release}
+Provides: %{real_name}-common = %{version}-%{release}
 Provides: %{name}(api) = %{apiver}%{isasuffix}
 Provides: %{name}(zend-abi) = %{zendver}%{isasuffix}
 Provides: %{name}(language) = %{version}, %{name}(language)%{?_isa} = %{version}
@@ -324,7 +326,7 @@ package and the php-cli package.
 %package devel
 Group: Development/Libraries
 Summary: Files needed for building PHP extensions
-Requires: %{name}-cli%{?_isa} = %{version}-%{release}, autoconf, automake
+Requires: %{name}-cli = %{version}-%{release}, autoconf, automake
 Requires: pcre-devel%{?_isa}
 Provides: %{name}-devel = %{version}-%{release}
 Provides: %{real_name}-devel = %{version}-%{release}
@@ -334,7 +336,6 @@ Provides: %{real_name}-zts-devel = %{version}-%{release}
 Provides: %{name}-zts-devel%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-zts-devel%{?_isa} = %{version}-%{release}
 %endif
-Requires: %{name}-json-devel%{?_isa}
 
 %description devel
 The php-devel package contains the files needed for building PHP
@@ -345,7 +346,7 @@ need to install this package.
 Summary:   The Zend OPcache
 Group:     Development/Languages
 License:   PHP
-Requires:  %{name}-common%{?_isa} = %{version}-%{release}
+Requires:  %{name}-common = %{version}-%{release}
 Obsoletes: %{name}-pecl-zendopcache
 Provides:  %{name}pecl-zendopcache = %{opcachever}
 Provides:  %{real_name}pecl-zendopcache = %{opcachever}
@@ -372,7 +373,7 @@ Summary: A module for PHP applications that use IMAP
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-imap = %{version}-%{release}
 Provides: %{real_name}-imap = %{version}-%{release}
 BuildRequires: krb5-devel, openssl-devel, libc-client-devel
@@ -387,7 +388,7 @@ Summary: A module for PHP applications that use LDAP
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-ldap = %{version}-%{release}
 Provides: %{real_name}-ldap = %{version}-%{release}
 BuildRequires: cyrus-sasl-devel, openldap-devel, openssl-devel
@@ -403,7 +404,7 @@ Summary: A database access abstraction module for PHP applications
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-pdo = %{version}-%{release}
 Provides: %{real_name}-pdo = %{version}-%{release}
 # ABI/API check - Arch specific
@@ -428,7 +429,7 @@ Summary: A module for PHP applications that use MySQL databases
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
+Requires: %{name}-pdo = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{real_name}_database
 Provides: %{name}-mysqli = %{version}-%{release}
@@ -453,7 +454,7 @@ Summary: A module for PHP applications that use MySQL databases
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
+Requires: %{name}-pdo = %{version}-%{release}
 Provides: %{name}-mysqlnd = %{version}-%{release}
 Provides: %{real_name}-mysqlnd = %{version}-%{release}
 Provides: %{name}_database
@@ -486,7 +487,7 @@ Summary: A PostgreSQL database module for PHP
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
+Requires: %{name}-pdo = %{version}-%{release}
 Provides: %{name}-pgsql = %{version}-%{release}
 Provides: %{real_name}-pgsql = %{version}-%{release}
 Provides: %{name}_database
@@ -508,7 +509,7 @@ Summary: Modules for PHP script using system process interfaces
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: php-posix, php-posix%{?_isa}
 Provides: php-shmop, php-shmop%{?_isa}
 Provides: php-sysvsem, php-sysvsem%{?_isa}
@@ -526,7 +527,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01, except
 # pdo_odbc is licensed under PHP version 3.0
 License: PHP
-Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
+Requires: %{name}-pdo = %{version}-%{release}
 Provides: php_database
 Provides: php-pdo_odbc, php-pdo_odbc%{?_isa}
 BuildRequires: unixODBC-devel
@@ -545,7 +546,9 @@ Summary: A module for PHP applications that use the SOAP protocol
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: php-common%{?_isa} = %{version}-%{release}
+Provides: %{name}-soap = %{version}-%{release}
+Provides: %{real_name}-soap = %{version}-%{release}
+Requires: php-common = %{version}-%{release}
 BuildRequires: libxml2-devel
 
 %description soap
@@ -558,7 +561,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 BuildRequires:  firebird-devel
-Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
+Requires: %{name}-pdo = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{real_name}_database
 Provides: %{name}-firebird, %{name}-firebird%{?_isa}
@@ -584,7 +587,7 @@ Summary: A module for PHP applications that query SNMP-managed devices
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}, net-snmp
+Requires: %{name}-common = %{version}-%{release}, net-snmp
 Provides: %{name}-snmp = %{version}-%{release}
 Provides: %{real_name}-snmp = %{version}-%{release}
 BuildRequires: net-snmp-devel
@@ -600,7 +603,7 @@ Summary: A module for PHP applications which use XML
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-dom, %{name}-dom%{?_isa}
 Provides: %{real_name}-dom, %{real_name}-dom%{?_isa}
 Provides: %{name}-domxml, %{name}-domxml%{?_isa}
@@ -628,7 +631,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01, except
 # libXMLRPC is licensed under BSD
 License: PHP and BSD
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-xmlrpc = %{version}-%{release}
 Provides: %{real_name}-xmlrpc = %{version}-%{release}
 
@@ -644,7 +647,7 @@ Group: Development/Languages
 # onigurama is licensed under BSD
 # ucgendat is licensed under OpenLDAP
 License: PHP and LGPLv2 and BSD and OpenLDAP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-mbstring = %{version}-%{release}
 Provides: %{real_name}-mbstring = %{version}-%{release}
 
@@ -662,7 +665,7 @@ License: PHP
 # bundled libgd is licensed under BSD
 License: PHP and BSD
 %endif
-Requires: php-common%{?_isa} = %{version}-%{release}
+Requires: php-common = %{version}-%{release}
 Provides: %{name}-gd = %{version}-%{release}
 Provides: %{real_name}-gd = %{version}-%{release}
 BuildRequires: t1lib-devel
@@ -687,7 +690,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01, except
 # libbcmath is licensed under LGPLv2+
 License: PHP and LGPLv2+
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-bcmath = %{version}-%{release}
 Provides: %{real_name}-bcmath = %{version}-%{release}
 
@@ -701,7 +704,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 BuildRequires: gmp-devel
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-gmp = %{version}-%{release}
 Provides: %{real_name}-gmp = %{version}-%{release}
 
@@ -715,7 +718,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 BuildRequires: %{db_devel}, tokyocabinet-devel
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-dba = %{version}-%{release}
 Provides: %{real_name}-dba = %{version}-%{release}
 
@@ -728,7 +731,7 @@ Summary: Standard PHP module provides mcrypt library support
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-mcrypt = %{version}-%{release}
 Provides: %{real_name}-mcrypt = %{version}-%{release}
 BuildRequires: libmcrypt-devel
@@ -742,7 +745,7 @@ Summary: Standard PHP module provides tidy library support
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-tidy = %{version}-%{release}
 Provides: %{real_name}-tidy = %{version}-%{release}
 BuildRequires: libtidy-devel
@@ -756,7 +759,7 @@ Summary: MSSQL database module for PHP
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
+Requires: %{name}-pdo = %{version}-%{release}
 BuildRequires: freetds-devel
 Provides: %{name}-mssql = %{version}-%{release}
 Provides: %{real_name}-mssql = %{version}-%{release}
@@ -772,7 +775,7 @@ database server which supports TDS can be accessed.
 %package embedded
 Summary: PHP library for embedding in applications
 Group: System Environment/Libraries
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 # doing a real -devel package for just the .so symlink is a bit overkill
 Provides: %{name}-embedded = %{version}-%{release}
 Provides: %{real_name}-embedded = %{version}-%{release}
@@ -788,7 +791,7 @@ Summary: A module for PHP applications for using pspell interfaces
 Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-pspell = %{version}-%{release}
 Provides: %{real_name}-pspell = %{version}-%{release}
 BuildRequires: aspell-devel >= 0.50.0
@@ -802,7 +805,7 @@ Summary: A module for PHP applications for using the recode library
 Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-recode = %{version}-%{release}
 Provides: %{real_name}-recode = %{version}-%{release}
 BuildRequires: recode-devel
@@ -816,7 +819,7 @@ Summary: Internationalization extension for PHP applications
 Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-intl = %{version}-%{release}
 Provides: %{real_name}-intl = %{version}-%{release}
 BuildRequires: libicu-devel >= 4.0
@@ -830,7 +833,7 @@ Summary: Human Language and Character Encoding Support
 Group: System Environment/Libraries
 # All files licensed under PHP version 3.0
 License: PHP
-Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-enchant = %{version}-%{release}
 Provides: %{real_name}-enchant = %{version}-%{release}
 BuildRequires: enchant-devel >= 1.2.4
