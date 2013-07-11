@@ -471,9 +471,6 @@ Provides: %{name}-mysqli%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-mysqli%{?_isa} = %{version}-%{release}
 Provides: %{name}-pdo_mysql, php-pdo_mysql%{?_isa}
 Provides: %{real_name}-pdo_mysql, php-pdo_mysql%{?_isa}
-%if ! %{with_libmysql}
-Obsoletes: php-mysql < %{version}-%{release}
-%endif
 
 %description mysqlnd
 The php-mysqlnd package contains a dynamic shared object that will add
@@ -1681,6 +1678,9 @@ exit 0
 
 
 %changelog
+* Thu Jul 11 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.0-5.ius
+- removed Obsoletes for mysqlnd
+
 * Tue Jul 09 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.0-4.ius
 - changing name to php55u
 - updated Provides
