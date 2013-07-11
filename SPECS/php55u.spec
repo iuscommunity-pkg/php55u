@@ -509,11 +509,16 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common = %{version}-%{release}
-Provides: php-posix, php-posix%{?_isa}
-Provides: php-shmop, php-shmop%{?_isa}
-Provides: php-sysvsem, php-sysvsem%{?_isa}
-Provides: php-sysvshm, php-sysvshm%{?_isa}
-Provides: php-sysvmsg, php-sysvmsg%{?_isa}
+Provides: %{name}-posix, %{name}-posix%{?_isa}
+Provides: %{real_name}-posix, %{real_name}-posix%{?_isa}
+Provides: %{name}-shmop, %{name}-shmop%{?_isa}
+Provides: %{real_name}-shmop, %{real_name}-shmop%{?_isa}
+Provides: %{name}-sysvsem, %{name}-sysvsem%{?_isa}
+Provides: %{real_name}-sysvsem, %{real_name}-sysvsem%{?_isa}
+Provides: %{name}-sysvshm, %{name}-sysvshm%{?_isa}
+Provides: %{real_name}-sysvshm, %{real_name}-sysvshm%{?_isa}
+Provides: %{name}-sysvmsg, %{name}-sysvmsg%{?_isa}
+Provides: %{real_name}-sysvmsg, %{real_name}-sysvmsg%{?_isa}
 
 %description process
 The php-process package contains dynamic shared objects which add
@@ -1680,6 +1685,7 @@ exit 0
 %changelog
 * Thu Jul 11 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.0-5.ius
 - removed Obsoletes for mysqlnd
+- update Provides for process
 
 * Tue Jul 09 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.0-4.ius
 - changing name to php55u
