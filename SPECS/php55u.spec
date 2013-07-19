@@ -74,8 +74,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name} 
-Version: 5.5.0
-Release: 5.ius%{?dist}
+Version: 5.5.1
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1604,6 +1604,8 @@ exit 0
 %{_bindir}/phpize
 %{_mandir}/man1/php.1*
 %{_mandir}/man1/phpize.1*
+%{_mandir}/man1/php-cgi.1*
+%{_mandir}/man1/phar*
 %doc sapi/cgi/README* sapi/cli/README
 
 %files fpm
@@ -1683,6 +1685,9 @@ exit 0
 
 
 %changelog
+* Fri Jul 19 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.1-5.ius
+- update to 5.5.1
+
 * Thu Jul 11 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.0-5.ius
 - removed Obsoletes for mysqlnd
 - update Provides for process
