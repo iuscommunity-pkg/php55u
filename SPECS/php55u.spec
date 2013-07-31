@@ -77,7 +77,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name} 
 Version: 5.5.1
-Release: 2.ius%{?dist}
+Release: 3.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1140,7 +1140,7 @@ without_shared="--without-gd \
       --disable-opcache \
       --disable-xmlreader --disable-xmlwriter \
       --without-sqlite3 --disable-phar --disable-fileinfo \
-      --without-pspell --disable-wddx \
+      --without-pspell --disable-wddx --disable-json \
       --without-curl --disable-posix --disable-xml \
       --disable-simplexml --disable-exif --without-gettext \
       --without-iconv --disable-ftp --without-bz2 --disable-ctype \
@@ -1723,6 +1723,9 @@ exit 0
 
 
 %changelog
+* Wed Jul 31 2013 Mark McKinstry <mmckinst@nexcess.net> - 5.5.1-3.ius
+- add json to the list of things not to build when using without_shared
+
 * Wed Jul 31 2013 Mark McKinstry <mmckinst@nexcess.net> - 5.5.1-2.ius
 - add litespeed support
 
