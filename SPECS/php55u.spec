@@ -45,6 +45,8 @@
 
 %global with_dtrace 1
 
+%global with_litespeed 1
+
 # build with system libgd
 %if 0%{?fedora} < 20
 %global  with_libgd 0
@@ -75,7 +77,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name} 
 Version: 5.5.1
-Release: 1.ius%{?dist}
+Release: 3.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -730,6 +732,18 @@ Provides: %{real_name}-dba = %{version}-%{release}
 The php-dba package contains a dynamic shared object that will add
 support for using the DBA database abstraction layer to PHP.
 
+%if %{with_litespeed}
+%package litespeed
+Summary: API for the Litespeed web server
+Group: Development/Languages
+Requires: %{name}-common = %{version}-%{release}
+Provides: %{name}-litespeed = %{version}-%{release}
+Provides: %{real_name}-litespeed = %{version}-%{release}
+
+%description litespeed
+The php-litespeed package contains the binary used by the Litespeed web server.
+%endif
+
 %package mcrypt
 Summary: Standard PHP module provides mcrypt library support
 Group: Development/Languages
@@ -889,6 +903,9 @@ cp ext/bcmath/libbcmath/COPYING.LIB libbcmath_COPYING
 mkdir build-cgi build-apache build-embedded \
 %if %{with_zts}
     build-zts build-ztscli \
+%endif
+%if %{with_litespeed}
+    build-litespeed \
 %endif
     build-fpm
 
@@ -1123,7 +1140,7 @@ without_shared="--without-gd \
       --disable-opcache \
       --disable-xmlreader --disable-xmlwriter \
       --without-sqlite3 --disable-phar --disable-fileinfo \
-      --without-pspell --disable-wddx \
+      --without-pspell --disable-wddx --disable-json \
       --without-curl --disable-posix --disable-xml \
       --disable-simplexml --disable-exif --without-gettext \
       --without-iconv --disable-ftp --without-bz2 --disable-ctype \
@@ -1163,6 +1180,16 @@ build --enable-embed \
       --without-mysql --disable-pdo \
       ${without_shared}
 popd
+
+%if 0%{with_litespeed}
+# Build litespeed module
+pushd build-litespeed
+build --with-litespeed \
+      --without-mysql \
+      --disable-pdo \
+      ${without_shared}
+popd
+%endif
 
 %if %{with_zts}
 # Build a special thread-safe (mainly for modules)
@@ -1367,6 +1394,11 @@ install -m 755 -d $RPM_BUILD_ROOT%{_datadir}/php
 # install the DSO
 install -m 755 -d $RPM_BUILD_ROOT%{_httpd_moddir}
 install -m 755 build-apache/libs/libphp5.so $RPM_BUILD_ROOT%{_httpd_moddir}
+
+%if %{with_litespeed}
+# install the php litespeed binary
+install -m 755 build-litespeed/sapi/litespeed/php %{buildroot}%{_bindir}/php-ls
+%endif
 
 %if %{with_zts}
 # install the ZTS DSO
@@ -1626,6 +1658,12 @@ exit 0
 %dir %{_datadir}/fpm
 %{_datadir}/fpm/status.html
 
+%if %{with_litespeed}
+%files litespeed
+%defattr(-,root,root)
+%{_bindir}/php-ls
+%endif
+
 %files devel
 %{_bindir}/php-config
 %{_includedir}/php
@@ -1685,7 +1723,13 @@ exit 0
 
 
 %changelog
-* Fri Jul 19 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.1-5.ius
+* Wed Jul 31 2013 Mark McKinstry <mmckinst@nexcess.net> - 5.5.1-3.ius
+- add json to the list of things not to build when using without_shared
+
+* Wed Jul 31 2013 Mark McKinstry <mmckinst@nexcess.net> - 5.5.1-2.ius
+- add litespeed support
+
+* Fri Jul 19 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.1-1.ius
 - update to 5.5.1
 
 * Thu Jul 11 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.0-5.ius
