@@ -77,7 +77,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name} 
 Version: 5.5.1
-Release: 3.ius%{?dist}
+Release: 4.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1034,7 +1034,7 @@ ln -sf ../configure
     --without-gdbm \
     --with-jpeg-dir=%{_prefix} \
     --with-openssl \
-    --with-pcre-regex=%{_prefix} \
+    --with-pcre-regex \
     --with-zlib \
     --with-layout=GNU \
     --with-kerberos \
@@ -1723,6 +1723,9 @@ exit 0
 
 
 %changelog
+* Wed Sep  4 2013 Mark McKinstry <mmckinst@nexcess.net> - 5.5.1-4.ius
+- build with PCRE bundled with PHP instead of with older system PCRE
+
 * Wed Jul 31 2013 Mark McKinstry <mmckinst@nexcess.net> - 5.5.1-3.ius
 - add json to the list of things not to build when using without_shared
 
