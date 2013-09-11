@@ -3,7 +3,7 @@
 %global zendver     20121212
 %global pdover      20080721
 # Extension version
-%global opcachever  7.0.2-dev
+%global opcachever  7.0.3-dev
 
 # Adds -z now to the linker flags
 %global _hardened_build 1
@@ -54,14 +54,8 @@
 %global  with_libgd 1
 %endif
 
-%if 0%{?fedora} < 17 && 0%{?rhel} < 7
-%global with_zip     0
-%global with_libzip  0
-%else
 %global with_zip     1
-%global with_libzip  1
-%endif
-
+%global with_libzip  0
 %if 0%{?fedora} < 18 && 0%{?rhel} < 7
 %global db_devel  db4-devel
 %else
@@ -72,12 +66,12 @@
 
 %global real_name php
 %global name php55u
-%global base_ver 5.r54
+%global base_ver 5.5
 
 Summary: PHP scripting language for creating dynamic web sites
-Name: %{name} 
-Version: 5.5.1
-Release: 4.ius%{?dist}
+Name: %{name}
+Version: 5.5.3
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -414,15 +408,15 @@ Provides: %{name}-pdo-abi = %{pdover}%{isasuffix}
 Provides: %{name}-sqlite3, %{name}-sqlite3%{?_isa}
 Provides: %{name}-pdo_sqlite, %{name}-pdo_sqlite%{?_isa}
 
-# ABI/API check - Arch specific                                                
-Provides: %{real_name}-pdo-abi = %{pdover}%{isasuffix}                         
-Provides: %{real_name}-sqlite3, %{real_name}-sqlite3%{?_isa}                   
+# ABI/API check - Arch specific
+Provides: %{real_name}-pdo-abi = %{pdover}%{isasuffix}
+Provides: %{real_name}-sqlite3, %{real_name}-sqlite3%{?_isa}
 Provides: %{real_name}-pdo_sqlite, %{real_name}-pdo_sqlite%{?_isa}
 
 %description pdo
 The php-pdo package contains a dynamic shared object that will add
 a database access abstraction layer to PHP.  This module provides
-a common interface for accessing MySQL, PostgreSQL or other 
+a common interface for accessing MySQL, PostgreSQL or other
 databases.
 
 %if %{with_libmysql}
@@ -580,11 +574,11 @@ The php-interbase package contains a dynamic shared object that will add
 database support through Interbase/Firebird to PHP.
 
 InterBase is the name of the closed-source variant of this RDBMS that was
-developed by Borland/Inprise. 
+developed by Borland/Inprise.
 
-Firebird is a commercially independent project of C and C++ programmers, 
-technical advisors and supporters developing and enhancing a multi-platform 
-relational database management system based on the source code released by 
+Firebird is a commercially independent project of C and C++ programmers,
+technical advisors and supporters developing and enhancing a multi-platform
+relational database management system based on the source code released by
 Inprise Corp (now known as Borland Software Corp) under the InterBase Public
 License.
 
@@ -1045,7 +1039,7 @@ ln -sf ../configure
     --enable-dtrace \
 %endif
     $*
-if test $? != 0; then 
+if test $? != 0; then
   tail -500 config.log
   : configure failed
   exit 1
@@ -1723,6 +1717,10 @@ exit 0
 
 
 %changelog
+* Tue Sep 10 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.3-1.ius
+- latest release, 5.5.3
+- enable zip support
+
 * Wed Sep  4 2013 Mark McKinstry <mmckinst@nexcess.net> - 5.5.1-4.ius
 - build with PCRE bundled with PHP instead of with older system PCRE
 
