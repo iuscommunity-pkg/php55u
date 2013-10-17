@@ -70,7 +70,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
-Version: 5.5.3
+Version: 5.5.5
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1717,6 +1717,9 @@ exit 0
 
 
 %changelog
+* Thu Oct 17 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.5-1.ius
+- latest release, 5.5.5
+
 * Tue Sep 10 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.3-1.ius
 - latest release, 5.5.3
 - enable zip support
