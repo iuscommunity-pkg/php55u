@@ -13,7 +13,7 @@ new=$(mktemp)
 
 echo "Untar..."
 tar xf php-$1.tar.xz
-#rm -rf php-$1/ext/json
+rm -rf php-$1/ext/json
 echo "Tar..."
 tar cJf  php-$1-strip.tar.xz php-$1
 

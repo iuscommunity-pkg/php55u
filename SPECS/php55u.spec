@@ -20,7 +20,7 @@
 # arch detection heuristic used by bindir/mysql_config.
 %global mysql_config %{_libdir}/mysql/mysql_config
 
-%global with_json     1
+%global with_json     0
 
 # Build mysql/mysqli/pdo extensions using libmysqlclient or only mysqlnd
 %global with_libmysql 0
@@ -71,7 +71,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
 Version: 5.5.5
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -226,6 +226,7 @@ Summary: Common files for PHP
 # fileinfo is licensed under PHP version 3.0
 # regex, libmagic are licensed under BSD
 License: PHP and BSD
+Requires: %{name}-pecl-jsonc
 # ABI/API check - Arch specific
 Provides: %{name}-common = %{version}-%{release}
 Provides: %{real_name}-common = %{version}-%{release}
@@ -963,7 +964,7 @@ find . -name \*.[ch] -exec chmod 644 {} \;
 chmod 644 README.*
 
 # php-fpm configuration files for tmpfiles.d
-echo "d /run/php-fpm 755 root root" >php-fpm.tmpfiles
+echo "d %{_localstatedir}/run/php-fpm 755 root root" >php-fpm.tmpfiles
 
 # Some extensions have their own configuration file
 cp %{SOURCE50} .
@@ -1103,7 +1104,7 @@ build --libdir=%{_libdir}/php \
 %if %{with_json}
       --enable-json=shared \
 %else
-      --disable-json
+      --disable-json \
 %endif
 %if %{with_zip}
       --enable-zip=shared \
@@ -1246,7 +1247,7 @@ build --includedir=%{_includedir}/php-zts \
 %if %{with_json}
       --enable-json=shared \
 %else
-      --disable-json
+      --disable-json \
 %endif
 %if %{with_zip}
       --enable-zip=shared \
@@ -1427,7 +1428,7 @@ install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/session
 # PHP-FPM stuff
 # Log
 install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/log/php-fpm
-install -m 755 -d $RPM_BUILD_ROOT/run/php-fpm
+install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/run/php-fpm
 # Config
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
@@ -1647,7 +1648,7 @@ exit 0
 %dir %{_sysconfdir}/php-fpm.d
 # log owned by apache for log
 %attr(770,apache,root) %dir %{_localstatedir}/log/php-fpm
-%dir /run/php-fpm
+%dir %{_localstatedir}/run/php-fpm
 %{_mandir}/man8/php-fpm.8*
 %dir %{_datadir}/fpm
 %{_datadir}/fpm/status.html
@@ -1717,6 +1718,10 @@ exit 0
 
 
 %changelog
+* Fri Oct 25 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.5-2.ius
+- settings change for php55u-fpm see https://bugs.launchpad.net/ius/+bug/1244772
+- disable non free software json and replace with php55u-pecl-jsonc
+
 * Thu Oct 17 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.5-1.ius
 - latest release, 5.5.5
 
