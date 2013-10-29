@@ -226,7 +226,7 @@ Summary: Common files for PHP
 # fileinfo is licensed under PHP version 3.0
 # regex, libmagic are licensed under BSD
 License: PHP and BSD
-Requires: %{name}-pecl-jsonc
+#Requires: %{name}-pecl-jsonc
 # ABI/API check - Arch specific
 Provides: %{name}-common = %{version}-%{release}
 Provides: %{real_name}-common = %{version}-%{release}
