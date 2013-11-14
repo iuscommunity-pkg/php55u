@@ -70,8 +70,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
-Version: 5.5.5
-Release: 2.ius%{?dist}
+Version: 5.5.6
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1718,6 +1718,9 @@ exit 0
 
 
 %changelog
+* Thu Nov 14 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.6-1.ius
+- latest release, 5.5.5
+
 * Fri Oct 25 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.5-2.ius
 - settings change for php55u-fpm see https://bugs.launchpad.net/ius/+bug/1244772
 - disable non free software json and replace with php55u-pecl-jsonc
