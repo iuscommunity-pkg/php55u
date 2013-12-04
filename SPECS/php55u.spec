@@ -71,7 +71,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
 Version: 5.5.6
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -153,6 +153,7 @@ Requires: httpd-mmn = %{_httpd_mmn}
 Provides: mod_%{real_name} = %{version}-%{release}
 Provides: mod_%{name} = %{version}-%{release}
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{real_name} = %{version}-%{release}
 # For backwards-compatibility, require php-cli for the time being:
 Requires: %{name}-cli%{?_isa} = %{version}-%{release}
 # To ensure correct /var/lib/php/session ownership:
@@ -531,6 +532,8 @@ License: PHP
 Requires: %{name}-pdo = %{version}-%{release}
 Provides: php_database
 Provides: php-pdo_odbc, php-pdo_odbc%{?_isa}
+Provides: %{real_name}_database
+Provides: %{real_name}-pdo_odbc
 BuildRequires: unixODBC-devel
 
 %description odbc
@@ -562,6 +565,8 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 BuildRequires:  firebird-devel
+Provides: %{name}-interbase = %{version}-%{release}
+Provides: %{real_name}-interbase = %{version}-%{release}
 Requires: %{name}-pdo = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{real_name}_database
@@ -1718,6 +1723,9 @@ exit 0
 
 
 %changelog
+* Wed Dec 04 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.6-2.ius
+- adding missing provides
+
 * Thu Nov 14 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.6-1.ius
 - latest release, 5.5.5
 
