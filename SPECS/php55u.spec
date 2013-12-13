@@ -70,8 +70,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
-Version: 5.5.6
-Release: 3.ius%{?dist}
+Version: 5.5.7
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -97,10 +97,6 @@ Source11: strip.sh
 # Configuration files for some extensions
 Source50: opcache.ini
 Source51: opcache-default.blacklist
-# files needed to test CVE-2013-6420
-# taken from http://git.php.net/?p=php-src.git;a=commit;h=c1224573c773b6845e83505f717fbf820fc18415
-Source52: cve-2013-6420.crt
-Source53: cve-2013-6420.phpt
 
 # Build fixes
 Patch5: php-5.2.0-includedir.patch
@@ -125,14 +121,6 @@ Patch45: php-5.4.8-ldap_r.patch
 Patch46: php-5.4.9-fixheader.patch
 # drop "Configure command" from phpinfo output
 Patch47: php-5.4.9-phpinfo.patch
-# patch needed for CVE-2013-6420
-# taken from http://git.php.net/?p=php-src.git;a=commit;h=c1224573c773b6845e83505f717fbf820fc18415
-Patch48: php-5.3.27-openssl.patch
-
-
-
-# Fixes for tests
-
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
 BuildRequires: httpd-devel >= 2.0.46-1, pam-devel
@@ -890,10 +878,6 @@ support for using the enchant library to PHP.
 %endif
 %patch46 -p1 -b .fixheader
 %patch47 -p1 -b .phpinfo
-%patch48 -p1 -b .CVE-2013-6420
-
-cp %{SOURCE52} ext/openssl/tests/
-cp %{SOURCE53} ext/openssl/tests/
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1735,6 +1719,10 @@ exit 0
 
 
 %changelog
+* Fri Dec 13 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.7-1.ius
+- Latest sources from upstream
+- Source52, Source53 and Patch48 removed as cve-2013-6420 patched upstream
+
 * Wed Dec 11 2013 Ben Harper <ben.harper@rackspace.com> - 5.5.6-3.ius
 - Source52, Source53 and Patch48 add to address cve-2013-6420
 
