@@ -186,6 +186,8 @@ Provides: %{real_name}-pcntl, %{real_name}-pcntl%{?_isa}
 Provides: %{name}-pcntl, %{name}-pcntl%{?_isa}
 Provides: %{real_name}-readline, %{real_name}-readline%{?_isa}
 Provides: %{name}-readline, %{name}-readline%{?_isa}
+Provides: %{name}-cli = %{version}-%{release}
+Provides: %{real_name}-cli = %{version}-%{release}
 
 %description cli
 The php-cli package contains the command-line interface 
@@ -350,6 +352,8 @@ Provides:  %{name}-pecl(opcache) = %{opcachever}
 Provides:  %{real_name}-pecl(opcache) = %{opcachever}
 Provides:  %{name}-pecl(opcache)%{?_isa} = %{opcachever}
 Provides:  %{real_name}-pecl(opcache)%{?_isa} = %{opcachever}
+Provides:  %{name}-opcache = %{version}-%{release}
+Provides:  %{real_name}-opcache = %{version}-%{release}
 # Only one opcode cache could be enabled
 Conflicts: php-xcache
 # APC 3.1.15 offer an option to disable opcache
@@ -513,6 +517,8 @@ Provides: %{name}-sysvshm, %{name}-sysvshm%{?_isa}
 Provides: %{real_name}-sysvshm, %{real_name}-sysvshm%{?_isa}
 Provides: %{name}-sysvmsg, %{name}-sysvmsg%{?_isa}
 Provides: %{real_name}-sysvmsg, %{real_name}-sysvmsg%{?_isa}
+Requires: %{name}-process = %{version}-%{release}
+Provides: %{name}-process = %{version}-%{release}
 
 %description process
 The php-process package contains dynamic shared objects which add
@@ -620,6 +626,8 @@ Provides: %{name}-xmlwriter, %{name}-xmlwriter%{?_isa}
 Provides: %{real_name}-xmlwriter, %{real_name}-xmlwriter%{?_isa}
 Provides: %{name}-xsl, %{name}-xsl%{?_isa}
 Provides: %{real_name}-xsl, %{real_name}-xsl%{?_isa}
+Provides: %{name}-xml = %{version}-%{release}
+Provides: %{real_name}-xml = %{version}-%{release}
 BuildRequires: libxslt-devel >= 1.0.18-1, libxml2-devel >= 2.4.14-1
 
 %description xml
