@@ -342,8 +342,8 @@ Group:     Development/Languages
 License:   PHP
 Requires:  %{name}-common = %{version}-%{release}
 Obsoletes: %{name}-pecl-zendopcache
-Provides:  %{name}pecl-zendopcache = %{opcachever}
-Provides:  %{real_name}pecl-zendopcache = %{opcachever}
+Provides:  %{name}-pecl-zendopcache = %{opcachever}
+Provides:  %{real_name}-pecl-zendopcache = %{opcachever}
 Provides:  %{name}-pecl-zendopcache%{?_isa} = %{opcachever}
 Provides:  %{real_name}-pecl-zendopcache%{?_isa} = %{opcachever}
 Provides:  %{name}-pecl(opcache) = %{opcachever}
