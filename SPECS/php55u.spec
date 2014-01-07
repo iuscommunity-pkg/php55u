@@ -517,7 +517,7 @@ Provides: %{name}-sysvshm, %{name}-sysvshm%{?_isa}
 Provides: %{real_name}-sysvshm, %{real_name}-sysvshm%{?_isa}
 Provides: %{name}-sysvmsg, %{name}-sysvmsg%{?_isa}
 Provides: %{real_name}-sysvmsg, %{real_name}-sysvmsg%{?_isa}
-Requires: %{name}-process = %{version}-%{release}
+Provides: %{name}-process = %{version}-%{release}
 Provides: %{real_name}-process = %{version}-%{release}
 
 %description process
