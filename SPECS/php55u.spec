@@ -70,8 +70,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
-Version: 5.5.7
-Release: 2.ius%{?dist}
+Version: 5.5.8
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1727,6 +1727,9 @@ exit 0
 
 
 %changelog
+* Fri Jan 10 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.8-1.ius
+- Latest sources from upstream
+
 * Tue Jan 07 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.7-2.ius
 - add missing dashes and add missing provide lines for some packages from:
   https://github.com/iuscommunity-pkg/php55u/pull/4
