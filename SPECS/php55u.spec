@@ -3,7 +3,7 @@
 %global zendver     20121212
 %global pdover      20080721
 # Extension version
-%global opcachever  7.0.3-dev
+%global opcachever  7.0.3
 
 # Adds -z now to the linker flags
 %global _hardened_build 1
@@ -70,7 +70,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
-Version: 5.5.8
+Version: 5.5.9
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -80,9 +80,9 @@ Group: Development/Languages
 URL: http://www.php.net/
 
 # Need to download official tarball and strip non-free stuff
-# wget http://www.php.net/distributions/php-%{version}%{?rcver}.tar.xz
+# wget http://www.php.net/distributions/php-%{version}%{?rcver}.tar.bz2
 # ./strip.sh %{version}
-Source0: php-%{version}%{?rcver}-strip.tar.xz
+Source0: php-%{version}%{?rcver}-strip.tar.bz2
 Source1: php.conf
 Source2: php.ini
 Source3: macros.php
@@ -1727,6 +1727,11 @@ exit 0
 
 
 %changelog
+* Thu Feb 06 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.9-1.ius
+- Latest sources from upstream
+- change source tarball from tar.xz to tar.bz2 as PHP no longer offers tar.xz
+- update global opcachever from 7.0.3-dev to 7.0.3 to match upstream
+
 * Fri Jan 10 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.8-1.ius
 - Latest sources from upstream
 
