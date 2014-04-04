@@ -3,7 +3,7 @@
 %global zendver     20121212
 %global pdover      20080721
 # Extension version
-%global opcachever  7.0.3
+%global opcachever  7.0.4-dev
 
 # Adds -z now to the linker flags
 %global _hardened_build 1
@@ -70,7 +70,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
-Version: 5.5.10
+Version: 5.5.11
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -950,7 +950,7 @@ if test "x${vpdo}" != "x%{pdover}"; then
 fi
 
 # Check for some extension version
-ver=$(sed -n '/#define ACCELERATOR_VERSION /{s/.* "//;s/".*$//;p}' ext/opcache/ZendAccelerator.h)
+ver=$(sed -n '/#define PHP_ZENDOPCACHE_VERSION /{s/.* "//;s/".*$//;p}' ext/opcache/ZendAccelerator.h)
 if test "$ver" != "%{opcachever}"; then
    : Error: Upstream PHAR version is now ${ver}, expecting %{opcachever}.
    : Update the opcachever macro and rebuild.
@@ -1727,6 +1727,11 @@ exit 0
 
 
 %changelog
+* Fri Apr 04 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.11-1.ius
+- Latest sources from upstream
+- update global opcachever from 7.0.3 to 7.0.4-dev to match upstream
+- update extension check from ACCELERATOR_VERSION to PHP_ZENDOPCACHE_VERSION
+
 * Thu Mar 06 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.10-1.ius
 - Latest sources from upstream
 
