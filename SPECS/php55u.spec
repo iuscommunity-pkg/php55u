@@ -70,7 +70,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
-Version: 5.5.11
+Version: 5.5.12
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -950,7 +950,7 @@ if test "x${vpdo}" != "x%{pdover}"; then
 fi
 
 # Check for some extension version
-ver=$(sed -n '/#define PHP_ZENDOPCACHE_VERSION /{s/.* "//;s/".*$//;p}' ext/opcache/ZendAccelerator.h)
+ver=$(awk -F'"' '/#define PHP_ZENDOPCACHE_VERSION /{print$2}' ext/opcache/ZendAccelerator.h)
 if test "$ver" != "%{opcachever}"; then
    : Error: Upstream PHAR version is now ${ver}, expecting %{opcachever}.
    : Update the opcachever macro and rebuild.
@@ -1727,6 +1727,10 @@ exit 0
 
 
 %changelog
+* Thu May 01 2014 Carl George <carl.george@rackspace.com> - 5.5.12-1.ius
+- Latest sources from upstream
+- rewrite opcache extenstion version check
+
 * Fri Apr 04 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.11-1.ius
 - Latest sources from upstream
 - update global opcachever from 7.0.3 to 7.0.4-dev to match upstream
