@@ -920,21 +920,21 @@ rm -f ext/date/tests/timezone_location_get.phpt
 rm -f ext/sockets/tests/mcast_ipv?_recv.phpt
 
 # Safety check for API version change.
-pver=$(sed -n '/#define PHP_VERSION /{s/.* "//;s/".*$//;p}' main/php_version.h)
+pver=$(awk '$2=="PHP_VERSION"{gsub(/\"/,"",$3);print$3}' main/php_version.h)
 if test "x${pver}" != "x%{version}%{?rcver}"; then
    : Error: Upstream PHP version is now ${pver}, expecting %{version}%{?rcver}.
    : Update the version/rcver macros and rebuild.
    exit 1
 fi
 
-vapi=`sed -n '/#define PHP_API_VERSION/{s/.* //;p}' main/php.h`
+vapi=$(awk '$2=="PHP_API_VERSION"{gsub(/\"/,"",$3);print$3}' main/php.h)
 if test "x${vapi}" != "x%{apiver}"; then
    : Error: Upstream API version is now ${vapi}, expecting %{apiver}.
    : Update the apiver macro and rebuild.
    exit 1
 fi
 
-vzend=`sed -n '/#define ZEND_MODULE_API_NO/{s/^[^0-9]*//;p;}' Zend/zend_modules.h`
+vzend=$(awk '$2=="ZEND_MODULE_API_NO"{gsub(/\"/,"",$3);print$3}' Zend/zend_modules.h)
 if test "x${vzend}" != "x%{zendver}"; then
    : Error: Upstream Zend ABI version is now ${vzend}, expecting %{zendver}.
    : Update the zendver macro and rebuild.
@@ -942,7 +942,7 @@ if test "x${vzend}" != "x%{zendver}"; then
 fi
 
 # Safety check for PDO ABI version change
-vpdo=`sed -n '/#define PDO_DRIVER_API/{s/.*[ 	]//;p}' ext/pdo/php_pdo_driver.h`
+vpdo=$(awk '$2=="PDO_DRIVER_API"{gsub(/\"/,"",$3);print$3}' ext/pdo/php_pdo_driver.h)
 if test "x${vpdo}" != "x%{pdover}"; then
    : Error: Upstream PDO ABI version is now ${vpdo}, expecting %{pdover}.
    : Update the pdover macro and rebuild.
@@ -950,7 +950,7 @@ if test "x${vpdo}" != "x%{pdover}"; then
 fi
 
 # Check for some extension version
-ver=$(awk -F'"' '/#define PHP_ZENDOPCACHE_VERSION /{print$2}' ext/opcache/ZendAccelerator.h)
+ver=$(awk '$2=="PHP_ZENDOPCACHE_VERSION"{gsub(/\"/,"",$3);print$3}' ext/opcache/ZendAccelerator.h)
 if test "$ver" != "%{opcachever}"; then
    : Error: Upstream PHAR version is now ${ver}, expecting %{opcachever}.
    : Update the opcachever macro and rebuild.
