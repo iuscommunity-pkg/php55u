@@ -70,8 +70,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
-Version: 5.5.12
-Release: 2.ius%{?dist}
+Version: 5.5.13
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1727,6 +1727,9 @@ exit 0
 
 
 %changelog
+* Fri May 30 2014 Carl George <carl.george@rackspace.com> - 5.5.13-1.ius
+- Latest sources from upstream
+
 * Fri May 09 2014 Carl George <carl.george@rackspace.com> - 5.5.12-2.ius
 - update php-fpm-www.conf
 
