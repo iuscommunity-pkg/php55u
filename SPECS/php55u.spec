@@ -1727,7 +1727,7 @@ exit 0
 
 
 %changelog
-* Fri May 09 2014 Carl George <carl.george@rackspace.com> - 5.4.28-2.ius
+* Fri May 09 2014 Carl George <carl.george@rackspace.com> - 5.5.12-2.ius
 - update php-fpm-www.conf
 
 * Thu May 01 2014 Carl George <carl.george@rackspace.com> - 5.5.12-1.ius
