@@ -201,8 +201,7 @@ Summary: PHP FastCGI Process Manager
 # Zend is licensed under Zend
 # TSRM and fpm are licensed under BSD
 License: PHP and Zend and BSD
-Provides: %{real_name}-sqlite3
-Requires: %{real_name}-common = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Requires(pre): /usr/sbin/useradd
 Provides: %{name}-fpm = %{version}-%{release}
 Provides: %{real_name}-fpm = %{version}-%{release}
@@ -536,6 +535,8 @@ Provides: php_database
 Provides: php-pdo_odbc, php-pdo_odbc%{?_isa}
 Provides: %{real_name}_database
 Provides: %{real_name}-pdo_odbc
+Provides: %{name}-odbc = %{version}-%{release}
+Provides: %{real_name}-odbc = %{version}-%{release}
 BuildRequires: unixODBC-devel
 
 %description odbc
@@ -554,7 +555,7 @@ Group: Development/Languages
 License: PHP
 Provides: %{name}-soap = %{version}-%{release}
 Provides: %{real_name}-soap = %{version}-%{release}
-Requires: php-common = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 BuildRequires: libxml2-devel
 
 %description soap
@@ -675,7 +676,7 @@ License: PHP
 # bundled libgd is licensed under BSD
 License: PHP and BSD
 %endif
-Requires: php-common = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-gd = %{version}-%{release}
 Provides: %{real_name}-gd = %{version}-%{release}
 BuildRequires: t1lib-devel
@@ -1591,6 +1592,12 @@ exit 0
 
 %post fpm
 /sbin/chkconfig --add php-fpm
+
+%preun fpm
+if [ "$1" = 0 ] ; then
+    /sbin/service php-fpm stop >/dev/null 2>&1
+    /sbin/chkconfig --del php-fpm
+fi
 
 #%preun fpm
 #%systemd_preun php-fpm.service
