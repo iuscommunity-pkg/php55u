@@ -1593,6 +1593,12 @@ exit 0
 %post fpm
 /sbin/chkconfig --add php-fpm
 
+%preun fpm
+if [ "$1" = 0 ] ; then
+    /sbin/service php-fpm stop >/dev/null 2>&1
+    /sbin/chkconfig --del php-fpm
+fi
+
 #%preun fpm
 #%systemd_preun php-fpm.service
 
