@@ -554,7 +554,7 @@ Group: Development/Languages
 License: PHP
 Provides: %{name}-soap = %{version}-%{release}
 Provides: %{real_name}-soap = %{version}-%{release}
-Requires: php-common = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 BuildRequires: libxml2-devel
 
 %description soap
@@ -675,7 +675,7 @@ License: PHP
 # bundled libgd is licensed under BSD
 License: PHP and BSD
 %endif
-Requires: php-common = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Provides: %{name}-gd = %{version}-%{release}
 Provides: %{real_name}-gd = %{version}-%{release}
 BuildRequires: t1lib-devel
