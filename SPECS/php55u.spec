@@ -535,6 +535,8 @@ Provides: php_database
 Provides: php-pdo_odbc, php-pdo_odbc%{?_isa}
 Provides: %{real_name}_database
 Provides: %{real_name}-pdo_odbc
+Provides: %{name}-odbc = %{version}-%{release}
+Provides: %{real_name}-odbc = %{version}-%{release}
 BuildRequires: unixODBC-devel
 
 %description odbc
