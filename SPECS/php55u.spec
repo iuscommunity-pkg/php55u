@@ -122,6 +122,10 @@ Patch46: php-5.4.9-fixheader.patch
 # drop "Configure command" from phpinfo output
 Patch47: php-5.4.9-phpinfo.patch
 
+# https://bugs.launchpad.net/ius/+bug/1324826
+# https://github.com/php/php-src/commit/20568e502814fffc41d91a22edaf75ff5ae19d5c
+Patch49: php-5.5.13-unserialize.patch
+
 BuildRequires: bzip2-devel, curl-devel >= 7.9
 BuildRequires: httpd-devel >= 2.0.46-1, pam-devel
 BuildRequires: libstdc++-devel, openssl-devel
@@ -887,6 +891,7 @@ support for using the enchant library to PHP.
 %endif
 %patch46 -p1 -b .fixheader
 %patch47 -p1 -b .phpinfo
+%patch49 -p1
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE

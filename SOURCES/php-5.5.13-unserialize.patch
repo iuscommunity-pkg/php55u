@@ -1,0 +1,50 @@
+diff -Naur a/ext/standard/tests/serialize/005.phpt b/ext/standard/tests/serialize/005.phpt
+--- a/ext/standard/tests/serialize/005.phpt	2014-05-28 04:06:28.000000000 -0500
++++ b/ext/standard/tests/serialize/005.phpt	2014-06-09 15:00:14.043000000 -0500
+@@ -156,11 +156,9 @@
+ }
+ ===NANew===
+ unserializer(TestNANew)
+-
+-Warning: Erroneous data format for unserializing 'TestNANew' in %s005.php on line %d
+-
+-Notice: unserialize(): Error at offset 19 of 20 bytes in %s005.php on line %d
+-bool(false)
++TestNew::__wakeup()
++object(TestNANew)#1 (0) {
++}
+ ===NANew2===
+ unserializer(TestNANew2)
+ TestNew::unserialize()
+diff -Naur a/ext/standard/var_unserializer.c b/ext/standard/var_unserializer.c
+--- a/ext/standard/var_unserializer.c	2014-05-28 04:24:00.000000000 -0500
++++ b/ext/standard/var_unserializer.c	2014-06-09 15:01:42.620000000 -0500
+@@ -394,7 +394,11 @@
+ 
+ 	(*p) += 2;
+ 	
+-	if (ce->serialize == NULL) {
++        /* The internal class check here is a BC fix only, userspace classes implementing the
++        Serializable interface have eventually an inconsistent behavior at this place when
++        unserialized from a manipulated string. Additionaly the interal classes can possibly
++        crash PHP so they're still disabled here. */
++        if (ce->serialize == NULL || ZEND_INTERNAL_CLASS != ce->type) {
+ 		object_init_ex(*rval, ce);
+ 	} else {
+ 		/* If this class implements Serializable, it should not land here but in object_custom(). The passed string
+diff -Naur a/ext/standard/var_unserializer.re b/ext/standard/var_unserializer.re
+--- a/ext/standard/var_unserializer.re	2014-05-28 04:06:28.000000000 -0500
++++ b/ext/standard/var_unserializer.re	2014-06-09 15:02:14.948000000 -0500
+@@ -400,7 +400,11 @@
+ 
+ 	(*p) += 2;
+ 	
+-	if (ce->serialize == NULL) {
++        /* The internal class check here is a BC fix only, userspace classes implementing the
++        Serializable interface have eventually an inconsistent behavior at this place when
++        unserialized from a manipulated string. Additionaly the interal classes can possibly
++        crash PHP so they're still disabled here. */
++        if (ce->serialize == NULL || ZEND_INTERNAL_CLASS != ce->type) {
+ 		object_init_ex(*rval, ce);
+ 	} else {
+ 		/* If this class implements Serializable, it should not land here but in object_custom(). The passed string
