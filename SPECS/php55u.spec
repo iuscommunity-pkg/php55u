@@ -201,7 +201,7 @@ Summary: PHP FastCGI Process Manager
 # Zend is licensed under Zend
 # TSRM and fpm are licensed under BSD
 License: PHP and Zend and BSD
-Requires: %{real_name}-common = %{version}-%{release}
+Requires: %{name}-common = %{version}-%{release}
 Requires(pre): /usr/sbin/useradd
 Provides: %{name}-fpm = %{version}-%{release}
 Provides: %{real_name}-fpm = %{version}-%{release}
