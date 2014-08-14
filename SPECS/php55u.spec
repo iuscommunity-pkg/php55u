@@ -71,7 +71,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
 Version: 5.5.15
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -224,7 +224,6 @@ Summary: Common files for PHP
 # fileinfo is licensed under PHP version 3.0
 # regex, libmagic are licensed under BSD
 License: PHP and BSD
-#Requires: %{name}-pecl-jsonc
 # ABI/API check - Arch specific
 Provides: %{name}-common = %{version}-%{release}
 Provides: %{real_name}-common = %{version}-%{release}
@@ -313,6 +312,10 @@ Provides: %{real_name}-zlib, %{real_name}-zlib%{?_isa}
 Obsoletes: %{name}-pecl-phar < 1.2.4
 Obsoletes: %{name}-pecl-Fileinfo < 1.0.5
 Obsoletes: %{name}-mhash < 5.3.0
+
+# json typically is included with php-common adding a requires for other apps \
+# that might assume php-common is enough to get json
+Requires: php55u-pecl-jsonc
 
 %description common
 The php-common package contains files used by both the php
@@ -1734,6 +1737,9 @@ fi
 
 
 %changelog
+* Wed Aug 13 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.15-2.ius
+- adding requirement for php55u-pecl-jasonc
+
 * Thu Jul 24 2014 Ben Harper <ben.harper@rackspace.com> -  5.5.15-1.ius
 - Latest upstream source
 
