@@ -1666,7 +1666,7 @@ fi
 %{_sbindir}/php-fpm
 %dir %{_sysconfdir}/php-fpm.d
 # log owned by apache for log
-%attr(770,apache,root) %dir %{_localstatedir}/log/php-fpm
+%attr(770,apache,apache) %dir %{_localstatedir}/log/php-fpm
 %dir %{_localstatedir}/run/php-fpm
 %{_mandir}/man8/php-fpm.8*
 %dir %{_datadir}/fpm
@@ -1737,6 +1737,9 @@ fi
 
 
 %changelog
+* Mon Aug 18 2014 Carl George <carl.george@rackspace.com> - 5.5.15-3.ius
+- Change group ownership of fpm log directory from root to apache
+
 * Wed Aug 13 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.15-2.ius
 - adding requirement for php55u-pecl-jasonc
 
