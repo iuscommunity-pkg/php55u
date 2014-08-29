@@ -71,7 +71,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{name}
 Version: 5.5.16
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1737,6 +1737,9 @@ fi
 
 
 %changelog
+* Fri Aug 29 2014 Carl George <carl.george@rackspace.com> - 5.5.16-2.ius
+- Rebuild for libvpx.so.0 > libvpx.so.1
+
 * Fri Aug 22 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.16-1.ius
 - Latest upstream source
 
