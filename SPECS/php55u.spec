@@ -1739,6 +1739,9 @@ fi
 %changelog
 * Fri Sep 19 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.17-1.ius
 - Latest upstream source
+=======
+* Fri Aug 29 2014 Carl George <carl.george@rackspace.com> - 5.5.16-2.ius
+- Rebuild for libvpx.so.0 > libvpx.so.1
 
 * Fri Aug 22 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.16-1.ius
 - Latest upstream source
