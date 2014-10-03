@@ -1774,6 +1774,11 @@ fi
 %changelog
 * Fri Oct 03 2014 Carl George <carl.george@rackspace.com> - 5.5.16-3.ius
 - Add IUS conflicts
+- Add numerical prefix to extension configuration files
+- Adding requirement to devel for pecl-jasonc-devel
+- Move zts-php binary to cli package
+- Use --program-prefix to create zts binaries
+- Add zts specific man pages
 
 * Fri Aug 29 2014 Carl George <carl.george@rackspace.com> - 5.5.16-2.ius
 - Rebuild for libvpx.so.0 > libvpx.so.1
