@@ -309,8 +309,9 @@ Obsoletes: %{name}-pecl-Fileinfo < 1.0.5
 Obsoletes: %{name}-mhash < 5.3.0
 Conflicts: %{real_name}-common < %{base_ver}
 
-# json typically is included with php-common adding a requires for other apps \
-# that might assume php-common is enough to get json
+# The json module was formerly included with common.  Now it is part of
+# pecl-jsonc.  Require it here for apps that actually need the json module but
+# have only declared a dependency on common.
 Requires: php55u-pecl-jsonc
 
 %description common
@@ -330,6 +331,11 @@ Provides: %{real_name}-zts-devel = %{version}-%{release}
 Provides: %{name}-zts-devel%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-zts-devel%{?_isa} = %{version}-%{release}
 %endif
+
+# The json headers were formerly included with devel.  Now they are part of
+# pecl-jsonc-devel.  Require it here for apps that actually need the json
+# headers but have only declared a dependency on devel.
+Requires: %{name}-pecl-jsonc-devel%{?_isa}
 Conflicts: %{real_name}-devel < %{base_ver}
 
 %description devel
