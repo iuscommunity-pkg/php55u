@@ -206,12 +206,6 @@ Requires(pre): /usr/sbin/useradd
 Provides: %{name}-fpm = %{version}-%{release}
 Provides: %{real_name}-fpm = %{version}-%{release}
 Conflicts: %{real_name}-fpm < %{base_ver}
-#BuildRequires: systemd-units
-#BuildRequires: systemd-devel
-#Requires: systemd-units
-#Requires(post): systemd-units
-#Requires(preun): systemd-units
-#Requires(postun): systemd-units
 
 %description fpm
 PHP-FPM (FastCGI Process Manager) is an alternative PHP FastCGI
@@ -1008,8 +1002,6 @@ rm -f TSRM/tsrm_win32.h \
 find . -name \*.[ch] -exec chmod 644 {} \;
 chmod 644 README.*
 
-# php-fpm configuration files for tmpfiles.d
-echo "d %{_localstatedir}/run/php-fpm 755 root root" >php-fpm.tmpfiles
 
 # Some extensions have their own configuration file
 cp %{SOURCE50} 10-opcache.ini
@@ -1479,9 +1471,6 @@ install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
 mv $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf.default .
-# tmpfiles.d
-install -m 755 -d $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d
-install -m 644 php-fpm.tmpfiles $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d/php-fpm.conf
 #service
 install -m 755 -d $RPM_BUILD_ROOT%{_initrddir}
 install -m 755 %{SOURCE6} $RPM_BUILD_ROOT%{_initrddir}/php-fpm
@@ -1644,12 +1633,6 @@ if [ "$1" = 0 ] ; then
     /sbin/chkconfig --del php-fpm
 fi
 
-#%preun fpm
-#%systemd_preun php-fpm.service
-
-##%postun fpm
-#%systemd_postun_with_restart php-fpm.service
-
 %post embedded -p /sbin/ldconfig
 %postun embedded -p /sbin/ldconfig
 
@@ -1703,7 +1686,6 @@ fi
 %config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/php-fpm
 %config(noreplace) %{_sysconfdir}/sysconfig/php-fpm
-%{_prefix}/lib/tmpfiles.d/php-fpm.conf
 %{_initrddir}/php-fpm
 %{_sbindir}/php-fpm
 %dir %{_sysconfdir}/php-fpm.d
