@@ -1237,6 +1237,8 @@ EXTENSION_DIR=%{_libdir}/php-zts/modules
 build --includedir=%{_includedir}/php-zts \
       --libdir=%{_libdir}/php-zts \
       --enable-maintainer-zts \
+      --program-prefix=zts- \
+      --disable-cgi \
       --with-config-file-scan-dir=%{_sysconfdir}/php-zts.d \
       --enable-pcntl \
       --enable-opcache \
@@ -1348,6 +1350,7 @@ popd
 ulimit -s 16384
 
 cd build-apache
+
 # Run tests, using the CLI SAPI
 export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
 export SKIP_ONLINE_TESTS=1
@@ -1388,10 +1391,6 @@ make -C build-zts install-modules \
      INSTALL_ROOT=$RPM_BUILD_ROOT
 %endif
 
-# rename ZTS binary
-mv $RPM_BUILD_ROOT%{_bindir}/php        $RPM_BUILD_ROOT%{_bindir}/zts-php
-mv $RPM_BUILD_ROOT%{_bindir}/phpize     $RPM_BUILD_ROOT%{_bindir}/zts-phpize
-mv $RPM_BUILD_ROOT%{_bindir}/php-config $RPM_BUILD_ROOT%{_bindir}/zts-php-config
 %endif
 
 # Install the version for embedded script language in applications + php_embed.h
@@ -1674,15 +1673,20 @@ fi
 
 %files cli
 %{_bindir}/php
+%if %{with_zts}
+%{_bindir}/zts-php
+%endif
 %{_bindir}/php-cgi
 %{_bindir}/phar.phar
 %{_bindir}/phar
 # provides phpize here (not in -devel) for pecl command
 %{_bindir}/phpize
 %{_mandir}/man1/php.1*
-%{_mandir}/man1/phpize.1*
+%{_mandir}/man1/zts-php.1*
 %{_mandir}/man1/php-cgi.1*
-%{_mandir}/man1/phar*
+%{_mandir}/man1/phar.1*
+%{_mandir}/man1/phar.phar.1*
+%{_mandir}/man1/phpize.1*
 %doc sapi/cgi/README* sapi/cli/README
 
 %files fpm
@@ -1714,11 +1718,11 @@ fi
 %{_libdir}/php/build
 %if %{with_zts}
 %{_bindir}/zts-php-config
-%{_includedir}/php-zts
 %{_bindir}/zts-phpize
-# usefull only to test other module during build
-%{_bindir}/zts-php
+%{_includedir}/php-zts
 %{_libdir}/php-zts/build
+%{_mandir}/man1/zts-php-config.1*
+%{_mandir}/man1/zts-phpize.1*
 %endif
 %{_mandir}/man1/php-config.1*
 %{_sysconfdir}/rpm/macros.php
