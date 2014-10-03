@@ -1764,6 +1764,7 @@ fi
 %files mysqlnd -f files.mysqlnd
 %files opcache -f files.opcache
 %config(noreplace) %{_sysconfdir}/php.d/opcache-default.blacklist
+%config(noreplace) %{_sysconfdir}/php-zts.d/opcache-default.blacklist
 
 
 %changelog
