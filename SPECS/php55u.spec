@@ -69,8 +69,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name:    php55u
-Version: 5.5.17
-Release: 2.ius%{?dist}
+Version: 5.5.16
+Release: 3.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -170,7 +170,7 @@ easy for developers to write dynamically generated web pages. PHP also
 offers built-in database integration for several commercial and
 non-commercial database management systems, so writing a
 database-enabled webpage with PHP is fairly simple. The most common
-use of PHP coding is probably as a replacement for CGI scripts. 
+use of PHP coding is probably as a replacement for CGI scripts.
 
 The php package contains the module which adds support for the PHP
 language to Apache HTTP Server.
@@ -190,7 +190,7 @@ Provides: %{real_name}-cli = %{version}-%{release}
 Conflicts: %{real_name}-cli < %{base_ver}
 
 %description cli
-The php-cli package contains the command-line interface 
+The php-cli package contains the command-line interface
 executing PHP scripts, /usr/bin/php, and the CGI interface.
 
 
@@ -1769,11 +1769,8 @@ fi
 
 
 %changelog
-* Mon Sep 29 2014 Carl George <carl.george@rackspace.com> - 5.5.17-2.ius
+* Fri Oct 03 2014 Carl George <carl.george@rackspace.com> - 5.5.16-3.ius
 - Add IUS conflicts
-
-* Fri Sep 19 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.17-1.ius
-- Latest upstream source
 
 * Fri Aug 29 2014 Carl George <carl.george@rackspace.com> - 5.5.16-2.ius
 - Rebuild for libvpx.so.0 > libvpx.so.1
