@@ -1012,7 +1012,7 @@ chmod 644 README.*
 echo "d %{_localstatedir}/run/php-fpm 755 root root" >php-fpm.tmpfiles
 
 # Some extensions have their own configuration file
-cp %{SOURCE50} .
+cp %{SOURCE50} 10-opcache.ini
 
 
 %build
@@ -1498,29 +1498,36 @@ install -m 644 %{SOURCE8} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/php-fpm
 # Generate files lists and stub .ini files for each subpackage
 for mod in pgsql odbc ldap snmp xmlrpc imap \
     mysqlnd mysqlnd_mysql mysqlnd_mysqli pdo_mysqlnd \
+%if %{with_libmysql}
+    mysql mysqli pdo_mysql \
+%endif
     mbstring gd dom xsl soap bcmath dba xmlreader xmlwriter \
     simplexml bz2 calendar ctype exif ftp gettext gmp iconv \
     sockets tokenizer opcache \
     pdo pdo_pgsql pdo_odbc pdo_sqlite \
-    sqlite3  interbase pdo_firebird \
-    enchant phar fileinfo intl \
-    mcrypt tidy pdo_dblib mssql pspell curl wddx \
-    posix shmop sysvshm sysvsem sysvmsg recode xml \
 %if %{with_json}
     json \
-%endif
-%if %{with_libmysql}
-    mysql mysqli pdo_mysql \
 %endif
 %if %{with_zip}
     zip \
 %endif
+    interbase pdo_firebird \
+    sqlite3 \
+    enchant phar fileinfo intl \
+    mcrypt tidy pdo_dblib mssql pspell curl wddx \
+    posix shmop sysvshm sysvsem sysvmsg recode xml \
     ; do
-    # for extension load order
-    if [ "$mod" = "wddx" ]
-    then   ini=xml_${mod}.ini
-    else   ini=${mod}.ini
-    fi
+    case $mod in
+      opcache)
+        # Zend extensions
+        ini=10-${mod}.ini;;
+      pdo_*|mysql|mysqli|wddx|xmlreader|xmlrpc)
+        # Extensions with dependencies on 20-*
+        ini=30-${mod}.ini;;
+      *)
+        # Extensions with no dependency
+        ini=20-${mod}.ini;;
+    esac
     # some extensions have their own config file
     if [ -f ${ini} ]; then
       cp -p ${ini} $RPM_BUILD_ROOT%{_sysconfdir}/php.d/${ini}
@@ -1591,6 +1598,9 @@ cat files.zip >> files.common
 
 # The default Zend OPcache blacklist file
 install -m 644 %{SOURCE51} $RPM_BUILD_ROOT%{_sysconfdir}/php.d/opcache-default.blacklist
+install -m 644 %{SOURCE51} $RPM_BUILD_ROOT%{_sysconfdir}/php-zts.d/opcache-default.blacklist
+sed -e '/blacklist_filename/s/php.d/php-zts.d/' \
+    -i $RPM_BUILD_ROOT%{_sysconfdir}/php-zts.d/10-opcache.ini
 
 # Install the macros file:
 install -d $RPM_BUILD_ROOT%{_sysconfdir}/rpm
