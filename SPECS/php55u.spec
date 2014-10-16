@@ -1476,7 +1476,7 @@ install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
 mv $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf.default .
-#service
+# service
 install -m 755 -d $RPM_BUILD_ROOT%{_initrddir}
 install -m 755 %{SOURCE6} $RPM_BUILD_ROOT%{_initrddir}/php-fpm
 # LogRotate
@@ -1775,7 +1775,7 @@ fi
 * Fri Oct 03 2014 Carl George <carl.george@rackspace.com> - 5.5.16-3.ius
 - Add IUS conflicts
 - Add numerical prefix to extension configuration files
-- Adding requirement to devel for pecl-jasonc-devel
+- Adding requirement to devel for pecl-jsonc-devel
 - Move zts-php binary to cli package
 - Use --program-prefix to create zts binaries
 - Add zts specific man pages
