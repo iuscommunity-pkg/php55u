@@ -70,7 +70,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name:    php55u
 Version: 5.5.19
-Release: 2.ius%{?dist}
+Release: 3.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1776,6 +1776,9 @@ fi
 
 
 %changelog
+* Fri Nov 21 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.19-3.ius
+- updated Patch48 to allign with upstream including headers
+
 * Wed Nov 19 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.19-2.ius
 - add Patch48
 
