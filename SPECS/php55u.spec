@@ -70,7 +70,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name:    php55u
 Version: 5.5.19
-Release: 4.ius%{?dist}
+Release: 5.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -123,6 +123,9 @@ Patch47: php-5.4.9-phpinfo.patch
 
 #https://bugs.php.net/bug.php?id=68423
 Patch48: php-5.5.19-load-all-pools.patch
+
+#https://bugs.php.net/bug.php?id=68420
+Patch49: php-5.5.19-listen-localhost.patch
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
 BuildRequires: httpd-devel >= 2.0.46-1, pam-devel
@@ -925,7 +928,9 @@ support for using the enchant library to PHP.
 %endif
 %patch46 -p1 -b .fixheader
 %patch47 -p1 -b .phpinfo
+
 %patch48 -p1 -b .68423
+%patch49 -p1 -b .68420
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1776,6 +1781,10 @@ fi
 
 
 %changelog
+* Tue Dec 16 2014 Carl George <carl.george@rackspace.com> - 5.5.19-5.ius
+- Update patch48 (php #68423) with correct content
+- Add patch49 (php #68420)
+
 * Thu Dec 11 2014 Ben Harper <ben.harper@rackspace.com> - 5.5.19-4.ius
 - correct pid in logrotate script
 
