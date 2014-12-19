@@ -121,11 +121,13 @@ Patch46: php-5.4.9-fixheader.patch
 # drop "Configure command" from phpinfo output
 Patch47: php-5.4.9-phpinfo.patch
 
-#https://bugs.php.net/bug.php?id=68423
-Patch48: php-5.5.19-load-all-pools.patch
+# https://bugs.php.net/bug.php?id=68423
+# resolved upstream 5.5.20
+#Patch48: php-5.5.19-load-all-pools.patch
 
-#https://bugs.php.net/bug.php?id=68420
-Patch49: php-5.5.19-listen-localhost.patch
+# https://bugs.php.net/bug.php?id=68420
+# resolved upstream 5.5.20
+#Patch49: php-5.5.19-listen-localhost.patch
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
 BuildRequires: httpd-devel >= 2.0.46-1, pam-devel
@@ -929,8 +931,8 @@ support for using the enchant library to PHP.
 %patch46 -p1 -b .fixheader
 %patch47 -p1 -b .phpinfo
 
-%patch48 -p1 -b .68423
-%patch49 -p1 -b .68420
+# patch48: resolved upstream 5.5.20
+# patch49: resolved upstream 5.5.20
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1783,6 +1785,7 @@ fi
 %changelog
 * Fri Dec 19 2014 Carl George <carl.george@rackspace.com> - 5.5.20-1.ius
 - Latest upstream
+- Patch48 and Patch49 resolved upstream
 
 * Tue Dec 16 2014 Carl George <carl.george@rackspace.com> - 5.5.19-5.ius
 - Update patch48 (php #68423) with correct content
