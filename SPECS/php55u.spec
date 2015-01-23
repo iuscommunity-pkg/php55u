@@ -191,15 +191,14 @@ which adds support for the PHP language to Apache HTTP Server.
 %package cli
 Group: Development/Languages
 Summary: Command-line interface for PHP
-Requires: %{name}-common = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: %{name}-cgi = %{version}-%{release}, %{name}-cgi%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-cgi = %{version}-%{release}, %{real_name}-cgi%{?_isa} = %{version}-%{release}
-Provides: %{real_name}-pcntl, %{real_name}-pcntl%{?_isa}
 Provides: %{name}-pcntl, %{name}-pcntl%{?_isa}
-Provides: %{real_name}-readline, %{real_name}-readline%{?_isa}
+Provides: %{real_name}-pcntl, %{real_name}-pcntl%{?_isa}
 Provides: %{name}-readline, %{name}-readline%{?_isa}
-Provides: %{name}-cli = %{version}-%{release}
-Provides: %{real_name}-cli = %{version}-%{release}
+Provides: %{real_name}-readline, %{real_name}-readline%{?_isa}
+Provides: %{real_name}-cli = %{version}-%{release}, %{real_name}-cli%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-cli < %{base_ver}
 
 %description cli
@@ -233,11 +232,11 @@ Summary: Common files for PHP
 # regex, libmagic are licensed under BSD
 License: PHP and BSD
 # ABI/API check - Arch specific
-Provides: %{name}-common = %{version}-%{release}
-Provides: %{real_name}-common = %{version}-%{release}
+Provides: %{real_name}-common = %{version}-%{release}, %{real_name}-common%{?_isa} = %{version}-%{release}
 Provides: %{name}(api) = %{apiver}%{isasuffix}
 Provides: %{name}(zend-abi) = %{zendver}%{isasuffix}
 Provides: %{name}(language) = %{version}, %{name}(language)%{?_isa} = %{version}
+Provides: %{real_name}(language) = %{version}, %{real_name}(language)%{?_isa} = %{version}
 # Provides for all builtin/shared modules:
 Provides: %{name}-bz2, %{name}-bz2%{?_isa}
 Provides: %{name}-calendar, %{name}-calendar%{?_isa}
