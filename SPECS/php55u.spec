@@ -306,11 +306,9 @@ Provides: %{real_name}-tokenizer, %{real_name}-tokenizer%{?_isa}
 
 %if %{with_json}
 Provides: %{real_name}-json, %{real_name}-json%{?_isa}
-Obsoletes: %{real_name}-pecl-json < 1.2.2
 %endif
 %if %{with_zip}
 Provides: %{real_name}-zip, %{real_name}-zip%{?_isa}
-Obsoletes: %{real_name}-pecl-zip < 1.11
 %endif
 Provides: %{real_name}-zlib, %{real_name}-zlib%{?_isa}
 
