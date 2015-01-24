@@ -413,9 +413,11 @@ Group: Development/Languages
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: %{name}-pdo-abi = %{pdover}%{isasuffix}
+Provides: %{name}(pdo-abi) = %{pdover}%{isasuffix}
 Provides: %{name}-sqlite3, %{name}-sqlite3%{?_isa}
 Provides: %{name}-pdo_sqlite, %{name}-pdo_sqlite%{?_isa}
 Provides: %{real_name}-pdo-abi = %{pdover}%{isasuffix}
+Provides: %{real_name}(pdo-abi) = %{pdover}%{isasuffix}
 Provides: %{real_name}-sqlite3, %{real_name}-sqlite3%{?_isa}
 Provides: %{real_name}-pdo_sqlite, %{real_name}-pdo_sqlite%{?_isa}
 Provides: config(%{real_name}-pdo) = %{version}-%{release}
