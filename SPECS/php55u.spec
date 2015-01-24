@@ -236,7 +236,6 @@ Provides: %{real_name}-common = %{version}-%{release}, %{real_name}-common%{?_is
 Provides: %{name}(api) = %{apiver}%{isasuffix}
 Provides: %{name}(zend-abi) = %{zendver}%{isasuffix}
 Provides: %{name}(language) = %{version}, %{name}(language)%{?_isa} = %{version}
-Provides: %{real_name}(language) = %{version}, %{real_name}(language)%{?_isa} = %{version}
 # Provides for all builtin/shared modules:
 Provides: %{name}-bz2, %{name}-bz2%{?_isa}
 Provides: %{name}-calendar, %{name}-calendar%{?_isa}
