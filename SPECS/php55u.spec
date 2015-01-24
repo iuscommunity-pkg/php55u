@@ -62,8 +62,6 @@
 %global db_devel  libdb-devel
 %endif
 
-#global rcver RC3
-
 %global real_name php
 %global base_ver 5.5
 
@@ -79,9 +77,9 @@ Group: Development/Languages
 URL: http://www.php.net/
 
 # Need to download official tarball and strip non-free stuff
-# wget http://www.php.net/distributions/php-%{version}%{?rcver}.tar.bz2
+# wget http://www.php.net/distributions/php-%{version}.tar.bz2
 # ./strip.sh %{version}
-Source0: php-%{version}%{?rcver}-strip.tar.bz2
+Source0: php-%{version}-strip.tar.bz2
 Source1: php.conf
 Source2: php.ini
 Source3: macros.php
@@ -913,7 +911,7 @@ support for using the enchant library to PHP.
 
 
 %prep
-%setup -q -n php-%{version}%{?rcver}
+%setup -q -n php-%{version}
 
 %patch5 -p1 -b .includedir
 %patch6 -p1 -b .embed
@@ -971,9 +969,9 @@ rm -f ext/sockets/tests/mcast_ipv?_recv.phpt
 
 # Safety check for API version change.
 pver=$(awk '$2=="PHP_VERSION"{gsub(/\"/,"",$3);print$3}' main/php_version.h)
-if test "x${pver}" != "x%{version}%{?rcver}"; then
-   : Error: Upstream PHP version is now ${pver}, expecting %{version}%{?rcver}.
-   : Update the version/rcver macros and rebuild.
+if test "x${pver}" != "x%{version}"; then
+   : Error: Upstream PHP version is now ${pver}, expecting %{version}.
+   : Update the version macros and rebuild.
    exit 1
 fi
 
