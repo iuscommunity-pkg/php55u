@@ -66,7 +66,7 @@
 %global base_ver 5.5
 
 Summary: PHP scripting language for creating dynamic web sites
-Name:    php55u
+Name: php55u
 Version: 5.5.20
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
@@ -213,10 +213,10 @@ Summary: PHP FastCGI Process Manager
 License: PHP and Zend and BSD
 Requires: %{name}-common = %{version}-%{release}
 Requires(pre): /usr/sbin/useradd
-Requires(post):    chkconfig
-Requires(preun):   chkconfig
-Requires(preun):   initscripts
-Requires(postun):  initscripts
+Requires(post): chkconfig
+Requires(preun): chkconfig
+Requires(preun): initscripts
+Requires(postun): initscripts
 Provides: %{real_name}-fpm = %{version}-%{release}
 Conflicts: %{real_name}-fpm < %{base_ver}
 
@@ -355,20 +355,20 @@ extensions. If you need to compile your own PHP extensions, you will
 need to install this package.
 
 %package opcache
-Summary:   The Zend OPcache
-Group:     Development/Languages
-License:   PHP
-Requires:  %{name}-common = %{version}-%{release}
+Summary: The Zend OPcache
+Group: Development/Languages
+License: PHP
+Requires: %{name}-common = %{version}-%{release}
 Obsoletes: %{name}-pecl-zendopcache
-Provides:  %{name}-pecl-zendopcache = %{opcachever}
-Provides:  %{real_name}-pecl-zendopcache = %{opcachever}
-Provides:  %{name}-pecl-zendopcache%{?_isa} = %{opcachever}
-Provides:  %{real_name}-pecl-zendopcache%{?_isa} = %{opcachever}
-Provides:  %{name}-pecl(opcache) = %{opcachever}
-Provides:  %{real_name}-pecl(opcache) = %{opcachever}
-Provides:  %{name}-pecl(opcache)%{?_isa} = %{opcachever}
-Provides:  %{real_name}-pecl(opcache)%{?_isa} = %{opcachever}
-Provides:  %{real_name}-opcache = %{version}-%{release}
+Provides: %{name}-pecl-zendopcache = %{opcachever}
+Provides: %{real_name}-pecl-zendopcache = %{opcachever}
+Provides: %{name}-pecl-zendopcache%{?_isa} = %{opcachever}
+Provides: %{real_name}-pecl-zendopcache%{?_isa} = %{opcachever}
+Provides: %{name}-pecl(opcache) = %{opcachever}
+Provides: %{real_name}-pecl(opcache) = %{opcachever}
+Provides: %{name}-pecl(opcache)%{?_isa} = %{opcachever}
+Provides: %{real_name}-pecl(opcache)%{?_isa} = %{opcachever}
+Provides: %{real_name}-opcache = %{version}-%{release}
 # Only one opcode cache could be enabled
 Conflicts: php-xcache
 # APC 3.1.15 offer an option to disable opcache
@@ -584,7 +584,7 @@ Summary: A module for PHP applications that use Interbase/Firebird databases
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-BuildRequires:  firebird-devel
+BuildRequires: firebird-devel
 Provides: %{real_name}-interbase = %{version}-%{release}
 Requires: %{name}-pdo = %{version}-%{release}
 Provides: %{name}_database
