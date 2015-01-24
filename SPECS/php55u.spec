@@ -213,6 +213,10 @@ Summary: PHP FastCGI Process Manager
 License: PHP and Zend and BSD
 Requires: %{name}-common = %{version}-%{release}
 Requires(pre): /usr/sbin/useradd
+Requires(post):    chkconfig
+Requires(preun):   chkconfig
+Requires(preun):   initscripts
+Requires(postun):  initscripts
 Provides: %{name}-fpm = %{version}-%{release}
 Provides: %{real_name}-fpm = %{version}-%{release}
 Conflicts: %{real_name}-fpm < %{base_ver}
@@ -1642,12 +1646,17 @@ getent passwd apache >/dev/null || \
 exit 0
 
 %post fpm
-/sbin/chkconfig --add php-fpm
+chkconfig --add %{real_name}-fpm
 
 %preun fpm
-if [ "$1" = 0 ] ; then
-    /sbin/service php-fpm stop >/dev/null 2>&1
-    /sbin/chkconfig --del php-fpm
+if [ "$1" -eq 0 ] ; then
+service %{real_name}-fpm stop &> /dev/null
+chkconfig --del %{real_name}-fpm &> /dev/null
+fi
+
+%postun fpm
+if [ "$1" -ge "1" ] ; then
+service %{real_name}-fpm condrestart &> /dev/null || :
 fi
 
 %post embedded -p /sbin/ldconfig
