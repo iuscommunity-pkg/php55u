@@ -68,7 +68,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php55u
-Version: 5.5.22
+Version: 5.5.23
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1771,6 +1771,9 @@ fi
 
 
 %changelog
+* Fri Mar 20 2015 Carl George <carl.george@rackspace.com> - 5.5.23-1.ius
+- Latest upstream
+
 * Thu Feb 19 2015 Carl George <carl.george@rackspace.com> - 5.5.22-1.ius
 - Latest upstream
 
