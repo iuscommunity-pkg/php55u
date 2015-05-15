@@ -68,7 +68,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php55u
-Version: 5.5.24
+Version: 5.5.25
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -108,7 +108,8 @@ Patch21: php-5.4.7-odbctimer.patch
 
 # Functional changes
 Patch40: php-5.4.0-dlopen.patch
-Patch42: php-5.3.1-systzdata-v10.patch
+# updated patch from https://raw.githubusercontent.com/remicollet/remirepo/b450c04511489b3b33eefea13d34b2935e910658/php/php55/php-5.5.25-systzdata-v12.patch
+Patch42: php-5.5.25-systzdata-v12.patch
 # See http://bugs.php.net/53436
 Patch43: php-5.4.0-phpize.patch
 # Use system libzip instead of bundled one
@@ -1773,6 +1774,7 @@ fi
 %changelog
 * Thu Apr 16 2015 Ben Harper <ben.harper@rackspace.com> - 5.5.24-1.ius
 - Latest upstream
+- Updated Patch42 from https://raw.githubusercontent.com/remicollet/remirepo/b450c04511489b3b33eefea13d34b2935e910658/php/php55/php-5.5.25-systzdata-v12.patch
 
 * Fri Mar 20 2015 Carl George <carl.george@rackspace.com> - 5.5.23-1.ius
 - Latest upstream
