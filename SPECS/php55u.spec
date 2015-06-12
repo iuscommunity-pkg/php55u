@@ -1772,9 +1772,12 @@ fi
 
 
 %changelog
-* Thu Apr 16 2015 Ben Harper <ben.harper@rackspace.com> - 5.5.24-1.ius
+* Fri May 15 2015 Ben Harper <ben.harper@rackspace.com> - 5.5.25-1.ius
 - Latest upstream
 - Updated Patch42 from https://raw.githubusercontent.com/remicollet/remirepo/b450c04511489b3b33eefea13d34b2935e910658/php/php55/php-5.5.25-systzdata-v12.patch
+
+* Thu Apr 16 2015 Ben Harper <ben.harper@rackspace.com> - 5.5.24-1.ius
+- Latest upstream
 
 * Fri Mar 20 2015 Carl George <carl.george@rackspace.com> - 5.5.23-1.ius
 - Latest upstream
