@@ -20,8 +20,6 @@
 # arch detection heuristic used by bindir/mysql_config.
 %global mysql_config %{_libdir}/mysql/mysql_config
 
-%global with_json     0
-
 # Build mysql/mysqli/pdo extensions using libmysqlclient or only mysqlnd
 %global with_libmysql 0
 
@@ -265,10 +263,6 @@ Provides: %{name}-sockets, %{name}-sockets%{?_isa}
 Provides: %{name}-spl, %{name}-spl%{?_isa}
 Provides: %{name}-standard = %{version}, %{name}-standard%{?_isa} = %{version}
 Provides: %{name}-tokenizer, %{name}-tokenizer%{?_isa}
-%if %{with_json}
-Provides: %{name}-json, %{name}-json%{?_isa}
-Obsoletes: %{name}-pecl-json < 1.2.2
-%endif
 %if %{with_zip}
 Provides: %{name}-zip, %{name}-zip%{?_isa}
 Obsoletes: %{name}-pecl-zip < 1.11
@@ -305,9 +299,6 @@ Provides: %{real_name}-spl, %{real_name}-spl%{?_isa}
 Provides: %{real_name}-standard = %{version}, %{real_name}-standard%{?_isa} = %{version}
 Provides: %{real_name}-tokenizer, %{real_name}-tokenizer%{?_isa}
 
-%if %{with_json}
-Provides: %{real_name}-json, %{real_name}-json%{?_isa}
-%endif
 %if %{with_zip}
 Provides: %{real_name}-zip, %{real_name}-zip%{?_isa}
 %endif
@@ -1139,11 +1130,6 @@ build --libdir=%{_libdir}/php \
       --with-pdo-sqlite=shared,%{_prefix} \
       --with-pdo-dblib=shared,%{_prefix} \
       --with-sqlite3=shared,%{_prefix} \
-%if %{with_json}
-      --enable-json=shared \
-%else
-      --disable-json \
-%endif
 %if %{with_zip}
       --enable-zip=shared \
 %if %{with_libzip}
@@ -1173,7 +1159,7 @@ without_shared="--without-gd \
       --disable-opcache \
       --disable-xmlreader --disable-xmlwriter \
       --without-sqlite3 --disable-phar --disable-fileinfo \
-      --without-pspell --disable-wddx --disable-json \
+      --without-pspell --disable-wddx \
       --without-curl --disable-posix --disable-xml \
       --disable-simplexml --disable-exif --without-gettext \
       --without-iconv --disable-ftp --without-bz2 --disable-ctype \
@@ -1284,11 +1270,6 @@ build --includedir=%{_includedir}/php-zts \
       --with-pdo-sqlite=shared,%{_prefix} \
       --with-pdo-dblib=shared,%{_prefix} \
       --with-sqlite3=shared,%{_prefix} \
-%if %{with_json}
-      --enable-json=shared \
-%else
-      --disable-json \
-%endif
 %if %{with_zip}
       --enable-zip=shared \
 %if %{with_libzip}
@@ -1494,9 +1475,6 @@ for mod in pgsql odbc ldap snmp xmlrpc imap \
     simplexml bz2 calendar ctype exif ftp gettext gmp iconv \
     sockets tokenizer opcache \
     pdo pdo_pgsql pdo_odbc pdo_sqlite \
-%if %{with_json}
-    json \
-%endif
 %if %{with_zip}
     zip \
 %endif
@@ -1578,9 +1556,6 @@ cat files.curl files.phar files.fileinfo \
     files.exif files.gettext files.iconv files.calendar \
     files.ftp files.bz2 files.ctype files.sockets \
     files.tokenizer > files.common
-%if %{with_json}
-cat files.json >> files.common
-%endif
 %if %{with_zip}
 cat files.zip >> files.common
 %endif
