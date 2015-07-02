@@ -1,3 +1,13 @@
+# NOTES ON BOOTSTRAPPING PHP 5.5:
+#
+# Due to the dependency cycle between PHP, pear, and pecl-jsonc, one has to
+# build in the following order:
+#
+# 1) php55u php_bootstrap 1
+# 2) php55u-pear
+# 3) php55u-pecl-jsonc
+# 4) php55u php_bootstrap 0
+
 %global with_system_pcre 0
 
 %if 0%{?rhel} >= 6
@@ -13,6 +23,9 @@
 # Extension version
 %global opcachever  7.0.6-dev
 
+# Use for first build of PHP (before pecl/zip and pecl/jsonc)
+%global php_bootstrap   0
+
 # Adds -z now to the linker flags
 %global _hardened_build 1
 
@@ -22,7 +35,11 @@
 %global mysql_sock %(mysql_config --socket 2>/dev/null || echo /var/lib/mysql/mysql.sock)
 
 # Regression tests take a long time, you can skip 'em with this
-%{!?runselftest: %{expand: %%global runselftest 1}}
+%if %{php_bootstrap}
+%global runselftest 0
+%else
+%{!?runselftest: %global runselftest 1}
+%endif
 
 # Use the arch-specific mysql_config binary to avoid mismatch with the
 # arch detection heuristic used by bindir/mysql_config.
@@ -279,6 +296,14 @@ Provides: %{name}-sockets, %{name}-sockets%{?_isa}
 Provides: %{name}-spl, %{name}-spl%{?_isa}
 Provides: %{name}-standard = %{version}, %{name}-standard%{?_isa} = %{version}
 Provides: %{name}-tokenizer, %{name}-tokenizer%{?_isa}
+%if %{php_bootstrap}
+Provides: %{name}-json, %{name}-json%{?_isa}
+%else
+# The json module was formerly included with common.  Now it is part of
+# pecl-jsonc.  Require it here for apps that actually need the json module but
+# have only declared a dependency on common.
+Requires: %{name}-pecl-jsonc%{?_isa}
+%endif
 %if %{with_zip}
 Provides: %{name}-zip, %{name}-zip%{?_isa}
 Obsoletes: %{name}-pecl-zip < 1.11
@@ -315,6 +340,9 @@ Provides: %{real_name}-spl, %{real_name}-spl%{?_isa}
 Provides: %{real_name}-standard = %{version}, %{real_name}-standard%{?_isa} = %{version}
 Provides: %{real_name}-tokenizer, %{real_name}-tokenizer%{?_isa}
 
+%if %{php_bootstrap}
+Provides: %{real_name}-json, %{real_name}-json%{?_isa}
+%endif
 %if %{with_zip}
 Provides: %{real_name}-zip, %{real_name}-zip%{?_isa}
 %endif
@@ -324,11 +352,6 @@ Obsoletes: %{name}-pecl-phar < 1.2.4
 Obsoletes: %{name}-pecl-Fileinfo < 1.0.5
 Obsoletes: %{name}-mhash < 5.3.0
 Conflicts: %{real_name}-common < %{base_ver}
-
-# The json module was formerly included with common.  Now it is part of
-# pecl-jsonc.  Require it here for apps that actually need the json module but
-# have only declared a dependency on common.
-Requires: php55u-pecl-jsonc
 
 %description common
 The php-common package contains files used by both the php
@@ -347,10 +370,12 @@ Provides: %{real_name}-devel = %{version}-%{release}, %{real_name}-devel%{?_isa}
 Provides: %{name}-zts-devel = %{version}-%{release}, %{name}-zts-devel%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-zts-devel = %{version}-%{release}, %{real_name}-zts-devel%{?_isa} = %{version}-%{release}
 %endif
+%if ! %{php_bootstrap}
 # The json headers were formerly included with devel.  Now they are part of
 # pecl-jsonc-devel.  Require it here for apps that actually need the json
 # headers but have only declared a dependency on devel.
 Requires: %{name}-pecl-jsonc-devel%{?_isa}
+%endif
 Conflicts: %{real_name}-devel < %{base_ver}
 
 %description devel
