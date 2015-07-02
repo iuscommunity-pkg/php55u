@@ -1,3 +1,5 @@
+%global with_system_pcre 0
+
 %if 0%{?rhel} >= 6
 %global with_sqlite3 1
 %else
@@ -149,7 +151,9 @@ BuildRequires: sqlite-devel >= 3.6.0
 BuildRequires: sqlite-devel >= 3.0.0
 %endif # with_sqlite3
 BuildRequires: zlib-devel, smtpdaemon, libedit-devel
+%if 0%{?with_system_pcre}
 BuildRequires: pcre-devel >= 6.6
+%endif # with_system_pcre
 BuildRequires: bzip2, perl, libtool >= 1.4.3, gcc-c++
 BuildRequires: libtool-ltdl-devel
 %if %{with_libzip}
@@ -334,7 +338,9 @@ package and the php-cli package.
 Group: Development/Libraries
 Summary: Files needed for building PHP extensions
 Requires: %{name}-cli%{?_isa} = %{version}-%{release}, autoconf, automake
+%if 0%{?with_system_pcre}
 Requires: pcre-devel%{?_isa}
+%endif
 Provides: config(%{real_name}-devel) = %{version}-%{release}
 Provides: %{real_name}-devel = %{version}-%{release}, %{real_name}-devel%{?_isa} = %{version}-%{release}
 %if %{with_zts}
@@ -1072,7 +1078,9 @@ ln -sf ../configure
     --without-gdbm \
     --with-jpeg-dir=%{_prefix} \
     --with-openssl \
-    --with-pcre-regex \
+%if 0%{?with_system_pcre}
+    --with-pcre-regex=%{_prefix} \
+%endif
     --with-zlib \
     --with-layout=GNU \
     --with-kerberos \
