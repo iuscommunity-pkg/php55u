@@ -2462,7 +2462,7 @@ fi
 - rebuild for libc-client bump
 
 * Wed Dec 05 2007 Release Engineering <rel-eng at fedoraproject dot org> - 5.2.5-3
- - Rebuild for openssl bump
+- Rebuild for openssl bump
 
 * Wed Dec  5 2007 Joe Orton <jorton@redhat.com> 5.2.5-2
 - update to 5.2.5
