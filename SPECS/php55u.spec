@@ -1,3 +1,9 @@
+%if 0%{?rhel} >= 6
+%global with_sqlite3 1
+%else
+%global with_sqlite3 0
+%endif
+
 # API/ABI check
 %global apiver      20121113
 %global zendver     20121212
@@ -135,7 +141,13 @@ BuildRequires: httpd-devel < 2.4
 BuildRequires: httpd-devel
 %endif
 BuildRequires: libstdc++-devel, openssl-devel
+%if 0%{?with_sqlite3}
+# This is the first Fedora version that sqlite was built with the
+# --enable-load-extension flag.
 BuildRequires: sqlite-devel >= 3.6.0
+%else
+BuildRequires: sqlite-devel >= 3.0.0
+%endif # with_sqlite3
 BuildRequires: zlib-devel, smtpdaemon, libedit-devel
 BuildRequires: pcre-devel >= 6.6
 BuildRequires: bzip2, perl, libtool >= 1.4.3, gcc-c++
@@ -406,14 +418,16 @@ License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: %{name}-pdo-abi = %{pdover}%{isasuffix}
 Provides: %{name}(pdo-abi) = %{pdover}%{isasuffix}
-Provides: %{name}-sqlite3, %{name}-sqlite3%{?_isa}
-Provides: %{name}-pdo_sqlite, %{name}-pdo_sqlite%{?_isa}
 Provides: %{real_name}-pdo-abi = %{pdover}%{isasuffix}
 Provides: %{real_name}(pdo-abi) = %{pdover}%{isasuffix}
-Provides: %{real_name}-sqlite3, %{real_name}-sqlite3%{?_isa}
+Provides: %{name}-pdo_sqlite, %{name}-pdo_sqlite%{?_isa}
 Provides: %{real_name}-pdo_sqlite, %{real_name}-pdo_sqlite%{?_isa}
 Provides: config(%{real_name}-pdo) = %{version}-%{release}
 Provides: %{real_name}-pdo = %{version}-%{release}, %{real_name}-pdo%{?_isa} = %{version}-%{release}
+%if 0%{?with_sqlite3}
+Provides: %{name}-sqlite3, %{name}-sqlite3%{?_isa}
+Provides: %{real_name}-sqlite3, %{real_name}-sqlite3%{?_isa}
+%endif # with_sqlite3
 Conflicts: %{real_name}-pdo < %{base_ver}
 
 %description pdo
@@ -1129,7 +1143,11 @@ build --libdir=%{_libdir}/php \
       --with-pdo-pgsql=shared,%{_prefix} \
       --with-pdo-sqlite=shared,%{_prefix} \
       --with-pdo-dblib=shared,%{_prefix} \
+%if 0%{?with_sqlite3}
       --with-sqlite3=shared,%{_prefix} \
+%else
+      --without-sqlite3 \
+%endif # with_sqlite3
 %if %{with_zip}
       --enable-zip=shared \
 %if %{with_libzip}
@@ -1269,7 +1287,11 @@ build --includedir=%{_includedir}/php-zts \
       --with-pdo-pgsql=shared,%{_prefix} \
       --with-pdo-sqlite=shared,%{_prefix} \
       --with-pdo-dblib=shared,%{_prefix} \
+%if 0%{?with_sqlite3}
       --with-sqlite3=shared,%{_prefix} \
+%else
+      --without-sqlite3 \
+%endif # with_sqlite3
 %if %{with_zip}
       --enable-zip=shared \
 %if %{with_libzip}
@@ -1479,7 +1501,9 @@ for mod in pgsql odbc ldap snmp xmlrpc imap \
     zip \
 %endif
     interbase pdo_firebird \
+%if 0%{?with_sqlite3}
     sqlite3 \
+%endif # with_sqlite3
     enchant phar fileinfo intl \
     mcrypt tidy pdo_dblib mssql pspell curl wddx \
     posix shmop sysvshm sysvsem sysvmsg recode xml \
@@ -1549,7 +1573,9 @@ cat files.shmop files.sysv* files.posix > files.process
 # Package sqlite3 and pdo_sqlite with pdo; isolating the sqlite dependency
 # isn't useful at this time since rpm itself requires sqlite.
 cat files.pdo_sqlite >> files.pdo
+%if 0%{?with_sqlite3}
 cat files.sqlite3 >> files.pdo
+%endif # with_sqlite3
 
 # Package zip, curl, phar and fileinfo in -common.
 cat files.curl files.phar files.fileinfo \
