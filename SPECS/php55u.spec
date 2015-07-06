@@ -152,6 +152,8 @@ Patch47: php-5.4.9-phpinfo.patch
 # resolved upstream 5.5.20
 #Patch49: php-5.5.19-listen-localhost.patch
 
+%{?el5:BuildRoot:  %{_tmppath}/%{real_name}-%{version}-%{release}-root-%(%{__id_u} -n)}
+
 BuildRequires: bzip2-devel, curl-devel >= 7.9
 BuildRequires: pam-devel
 %if 0%{?rhel} < 7
@@ -1374,6 +1376,10 @@ popd
 %endif
 
 
+%{?el5:%clean}
+%{?el5:%{__rm} -rf %{buildroot}}
+
+
 %check
 %if %runselftest
 
@@ -1403,6 +1409,7 @@ unset NO_INTERACTION REPORT_EXIT_STATUS MALLOC_CHECK_
 %endif
 
 %install
+%{?el5:%{__rm} -rf %{buildroot}}
 %if %{with_zts}
 # Install the extensions for the ZTS version
 make -C build-ztscli install \
