@@ -91,7 +91,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php55u
-Version: 5.5.26
+Version: 5.5.27
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1809,6 +1809,14 @@ fi
 
 
 %changelog
+* Fri Jul 10 2015 Carl George <carl.george@rackspace.com> - 5.5.27-1.ius
+- Latest upstream
+- Duplicate php56u boostrap setup
+- Clean up sqlite3 things (conditionals, flags, provides)
+- Add (disabled) conditional macro to allow building against system pcre
+- Remove unused json stuff
+- The phar link is now correctly created (thanks Remi)
+
 * Fri Jun 12 2015 Carl George <carl.george@rackspace.com> - 5.5.26-1.ius
 - Latest upstream
 - Opcache is now 7.0.6-dev (thanks Remi)
