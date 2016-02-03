@@ -1734,7 +1734,6 @@ fi
 
 %if %{with_litespeed}
 %files litespeed
-%defattr(-,root,root)
 %{_bindir}/php-ls
 %endif
 
