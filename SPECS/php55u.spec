@@ -9,9 +9,11 @@
 # 4) php55u php_bootstrap 0
 
 %if 0%{?rhel} >= 7
+%global with_systemd 1
 %global with_system_pcre 1
 %global _macrosdir %{_rpmconfigdir}/macros.d
 %else
+%global with_systemd 0
 %global with_system_pcre 0
 %global _macrosdir %{_sysconfdir}/rpm
 %endif
@@ -115,11 +117,12 @@ Source2: php.ini
 Source3: macros.php
 Source4: php-fpm.conf
 Source5: php-fpm-www.conf
-Source6: php-fpm.init
+Source6: php-fpm.service
 Source7: php-fpm.logrotate
 Source9: php.modconf
 Source10: php.ztsmodconf
 Source11: strip.sh
+Source12: php-fpm.init
 # Configuration files for some extensions
 Source50: opcache.ini
 Source51: opcache-default.blacklist
@@ -248,10 +251,19 @@ Summary: PHP FastCGI Process Manager
 License: PHP and Zend and BSD
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Requires(pre): /usr/sbin/useradd
+%if 0%{?with_systemd}
+BuildRequires: systemd-units
+BuildRequires: systemd-devel
+Requires: systemd-units
+Requires(post): systemd-units
+Requires(preun): systemd-units
+Requires(postun): systemd-units
+%else
 Requires(post): chkconfig
 Requires(preun): chkconfig
 Requires(preun): initscripts
 Requires(postun): initscripts
+%endif
 Provides: config(%{real_name}-fpm) = %{version}-%{release}
 Provides: %{real_name}-fpm = %{version}-%{release}, %{real_name}-fpm%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-fpm < %{base_ver}
@@ -1039,6 +1051,11 @@ rm -f TSRM/tsrm_win32.h \
 find . -name \*.[ch] -exec chmod 644 {} \;
 chmod 644 README.*
 
+%if 0%{?with_systemd}
+# php-fpm configuration files for tmpfiles.d
+echo "d /run/php-fpm 755 root root" >php-fpm.tmpfiles
+%endif
+
 # Some extensions have their own configuration file
 cp %{SOURCE50} 10-opcache.ini
 
@@ -1236,6 +1253,9 @@ popd
 # Build php-fpm
 pushd build-fpm
 build --enable-fpm \
+%if 0%{?with_systemd}
+      --with-fpm-systemd \
+%endif
       --libdir=%{_libdir}/php \
       --without-mysql \
       --disable-pdo \
@@ -1505,18 +1525,37 @@ install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/session
 # PHP-FPM stuff
 # Log
 install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/log/php-fpm
-install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/run/php-fpm
+
 # Config
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
+%if ! %{with_systemd}
+sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
+%endif
 mv $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf.default .
-# service
+
+%if 0%{?with_systemd}
+install -m 755 -d $RPM_BUILD_ROOT/run/php-fpm
+# tmpfiles.d
+install -m 755 -d $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d
+install -m 644 php-fpm.tmpfiles $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d/php-fpm.conf
+# install systemd unit files and scripts for handling server startup
+install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system/php-fpm.service.d
+install -m 755 -d $RPM_BUILD_ROOT%{_unitdir}
+install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_unitdir}/
+%else
+install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/run/php-fpm
 install -m 755 -d $RPM_BUILD_ROOT%{_initrddir}
-install -m 755 %{SOURCE6} $RPM_BUILD_ROOT%{_initrddir}/php-fpm
+install -m 755 %{SOURCE12} $RPM_BUILD_ROOT%{_initrddir}/php-fpm
+%endif
+
 # LogRotate
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
 install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
+%if ! %{with_systemd}
+sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
+%endif
 
 # Generate files lists and stub .ini files for each subpackage
 for mod in pgsql odbc ldap snmp xmlrpc imap \
@@ -1656,18 +1695,30 @@ getent passwd apache >/dev/null || \
 exit 0
 
 %post fpm
-chkconfig --add %{real_name}-fpm
+%if 0%{?with_systemd}
+%systemd_post php-fpm.service
+%else
+chkconfig --add php-fpm
+%endif
 
 %preun fpm
+%if 0%{?with_systemd}
+%systemd_preun php-fpm.service
+%else
 if [ "$1" -eq 0 ] ; then
-service %{real_name}-fpm stop &> /dev/null
-chkconfig --del %{real_name}-fpm &> /dev/null
+service php-fpm stop &> /dev/null
+chkconfig --del php-fpm &> /dev/null
 fi
+%endif
 
 %postun fpm
+%if 0%{?with_systemd}
+%systemd_postun_with_restart php-fpm.service
+%else
 if [ "$1" -ge "1" ] ; then
-service %{real_name}-fpm condrestart &> /dev/null || :
+service php-fpm condrestart &> /dev/null || :
 fi
+%endif
 
 %post embedded -p /sbin/ldconfig
 %postun embedded -p /sbin/ldconfig
@@ -1730,12 +1781,19 @@ fi
 %config(noreplace) %{_sysconfdir}/php-fpm.conf
 %config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/php-fpm
+%if 0%{?with_systemd}
+%dir /run/php-fpm
+%{_prefix}/lib/tmpfiles.d/php-fpm.conf
+%{_unitdir}/php-fpm.service
+%dir %{_sysconfdir}/systemd/system/php-fpm.service.d
+%else
+%dir %{_localstatedir}/run/php-fpm
 %{_initrddir}/php-fpm
+%endif
 %{_sbindir}/php-fpm
 %dir %{_sysconfdir}/php-fpm.d
 # log owned by apache for log
 %attr(770,apache,apache) %dir %{_localstatedir}/log/php-fpm
-%dir %{_localstatedir}/run/php-fpm
 %{_mandir}/man8/php-fpm.8*
 %dir %{_datadir}/fpm
 %{_datadir}/fpm/status.html
@@ -1818,6 +1876,7 @@ fi
 - Build with system pcre on EL7
 - Use license macro for licenses when possible
 - Use correct macros directory on different releases
+- systemd support
 
 * Thu Jan 07 2016 Carl George <carl.george@rackspace.com> - 5.5.31-1.ius
 - Latest upstream
