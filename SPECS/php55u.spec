@@ -199,11 +199,13 @@ Requires(pre): httpd-mmn = %{_httpd_mmn}
 Conflicts: %{real_name} < %{base_ver}
 Conflicts: php51, php52, php53u, php54
 
+%if 0%{?rhel} && 0%{?rhel} < 7
 # Don't provides extensions, which are not shared library, as .so
 %{?filter_provides_in: %filter_provides_in %{_libdir}/php/modules/.*\.so$}
 %{?filter_provides_in: %filter_provides_in %{_libdir}/php-zts/modules/.*\.so$}
 %{?filter_provides_in: %filter_provides_in %{_httpd_moddir}/.*\.so$}
 %{?filter_setup}
+%endif
 
 
 %description
@@ -1807,6 +1809,7 @@ fi
 - Remove unneeded obsoletes
 - Wrap two zts-related files in with_zts
 - Fix isa provides on pdo_dblib
+- Only manually filter provides on < EL7
 
 * Thu Jan 07 2016 Carl George <carl.george@rackspace.com> - 5.5.31-1.ius
 - Latest upstream
