@@ -1709,7 +1709,9 @@ fi
 # provides phpize here (not in -devel) for pecl command
 %{_bindir}/phpize
 %{_mandir}/man1/php.1*
+%if %{with_zts}
 %{_mandir}/man1/zts-php.1*
+%endif
 %{_mandir}/man1/php-cgi.1*
 %{_mandir}/man1/phar.1*
 %{_mandir}/man1/phar.phar.1*
@@ -1793,7 +1795,9 @@ fi
 %files mysqlnd -f files.mysqlnd
 %files opcache -f files.opcache
 %config(noreplace) %{_sysconfdir}/php.d/opcache-default.blacklist
+%if %{with_zts}
 %config(noreplace) %{_sysconfdir}/php-zts.d/opcache-default.blacklist
+%endif
 
 
 %changelog
@@ -1801,6 +1805,7 @@ fi
 - Latest upstream
 - Remove deprecated /etc/sysconfig/php-fpm
 - Remove unneeded obsoletes
+- Wrap two zts-related files in with_zts
 
 * Thu Jan 07 2016 Carl George <carl.george@rackspace.com> - 5.5.31-1.ius
 - Latest upstream
