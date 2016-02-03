@@ -1670,6 +1670,8 @@ fi
 %post embedded -p /sbin/ldconfig
 %postun embedded -p /sbin/ldconfig
 
+%{!?_licensedir:%global license %%doc}
+
 %files
 %{_httpd_moddir}/libphp5.so
 %if %{with_zts}
@@ -1683,10 +1685,10 @@ fi
 %{_httpd_contentdir}/icons/php.gif
 
 %files common -f files.common
-%doc CODING_STANDARDS CREDITS EXTENSIONS LICENSE NEWS README*
-%doc Zend/ZEND_* TSRM_LICENSE regex_COPYRIGHT
-%doc libmagic_LICENSE
-%doc phar_LICENSE
+%doc CODING_STANDARDS CREDITS EXTENSIONS NEWS README*
+%license LICENSE Zend/ZEND_* TSRM_LICENSE regex_COPYRIGHT
+%license libmagic_LICENSE
+%license phar_LICENSE
 %doc php.ini-*
 %config(noreplace) %{_sysconfdir}/php.ini
 %dir %{_sysconfdir}/php.d
@@ -1722,7 +1724,7 @@ fi
 
 %files fpm
 %doc php-fpm.conf.default
-%doc fpm_LICENSE
+%license fpm_LICENSE
 %config(noreplace) %{_sysconfdir}/php-fpm.conf
 %config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/php-fpm
@@ -1771,17 +1773,17 @@ fi
 %files xml -f files.xml
 %files xmlrpc -f files.xmlrpc
 %files mbstring -f files.mbstring
-%doc libmbfl_LICENSE
-%doc oniguruma_COPYING
-%doc ucgendat_LICENSE
+%license libmbfl_LICENSE
+%license oniguruma_COPYING
+%license ucgendat_LICENSE
 %files gd -f files.gd
 %if ! %{with_libgd}
-%doc libgd_README
-%doc libgd_COPYING
+%license libgd_README
+%license libgd_COPYING
 %endif
 %files soap -f files.soap
 %files bcmath -f files.bcmath
-%doc libbcmath_COPYING
+%license libbcmath_COPYING
 %files gmp -f files.gmp
 %files dba -f files.dba
 %files pdo -f files.pdo
@@ -1812,6 +1814,7 @@ fi
 - Only manually filter provides on < EL7
 - Build require httpd-devel < 2.4.10 to get stock httpd-devel, not httpd24u
 - Build with system pcre on EL7
+- Use license macro for licenses when possible
 
 * Thu Jan 07 2016 Carl George <carl.george@rackspace.com> - 5.5.31-1.ius
 - Latest upstream
