@@ -155,11 +155,7 @@ Patch47: php-5.4.9-phpinfo.patch
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
 BuildRequires: pam-devel
-%if 0%{?rhel} < 7
-BuildRequires: httpd-devel < 2.4
-%else
-BuildRequires: httpd-devel
-%endif
+BuildRequires: httpd-devel < 2.4.10
 BuildRequires: libstdc++-devel, openssl-devel
 %if 0%{?with_sqlite3}
 # This is the first Fedora version that sqlite was built with the
@@ -1810,6 +1806,7 @@ fi
 - Wrap two zts-related files in with_zts
 - Fix isa provides on pdo_dblib
 - Only manually filter provides on < EL7
+- Build require httpd-devel < 2.4.10 to get stock httpd-devel, not httpd24u
 
 * Thu Jan 07 2016 Carl George <carl.george@rackspace.com> - 5.5.31-1.ius
 - Latest upstream
