@@ -91,7 +91,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: php55u
-Version: 5.5.31
+Version: 5.5.32
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -101,9 +101,9 @@ Group: Development/Languages
 URL: http://www.php.net/
 
 # Need to download official tarball and strip non-free stuff
-# wget http://www.php.net/distributions/php-%{version}.tar.bz2
+# wget http://www.php.net/distributions/php-%{version}.tar.xz
 # ./strip.sh %{version}
-Source0: php-%{version}-strip.tar.bz2
+Source0: php-%{version}-strip.tar.xz
 Source1: php.conf
 Source2: php.ini
 Source3: macros.php
@@ -1809,6 +1809,9 @@ fi
 
 
 %changelog
+* Wed Feb 03 2016 Carl George <carl.george@rackspace.com> - 5.5.32-1.ius
+- Latest upstream
+
 * Thu Jan 07 2016 Carl George <carl.george@rackspace.com> - 5.5.31-1.ius
 - Latest upstream
 
