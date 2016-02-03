@@ -838,7 +838,7 @@ Group: Development/Languages
 License: PHP
 Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
 BuildRequires: freetds-devel
-Provides: %{name}-pdo_dblib, %{name}-pdo_dblib
+Provides: %{name}-pdo_dblib, %{name}-pdo_dblib%{?_isa}
 Provides: %{real_name}-pdo_dblib, %{real_name}-pdo_dblib%{?_isa}
 Provides: config(%{real_name}-mssql) = %{version}-%{release}
 Provides: %{real_name}-mssql = %{version}-%{release}, %{real_name}-mssql%{?_isa} = %{version}-%{release}
@@ -1806,6 +1806,7 @@ fi
 - Remove deprecated /etc/sysconfig/php-fpm
 - Remove unneeded obsoletes
 - Wrap two zts-related files in with_zts
+- Fix isa provides on pdo_dblib
 
 * Thu Jan 07 2016 Carl George <carl.george@rackspace.com> - 5.5.31-1.ius
 - Latest upstream
