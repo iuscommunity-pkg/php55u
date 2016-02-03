@@ -10,8 +10,10 @@
 
 %if 0%{?rhel} >= 7
 %global with_system_pcre 1
+%global _macrosdir %{_rpmconfigdir}/macros.d
 %else
 %global with_system_pcre 0
+%global _macrosdir %{_sysconfdir}/rpm
 %endif
 
 %if 0%{?rhel} >= 6
@@ -1631,7 +1633,7 @@ sed -e "s/@PHP_APIVER@/%{apiver}%{isasuffix}/" \
 %endif
     < %{SOURCE3} > macros.php
 install -m 644 -D macros.php \
-           $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.php
+           $RPM_BUILD_ROOT%{_macrosdir}/macros.php
 
 # Remove unpackaged files
 rm -rf $RPM_BUILD_ROOT%{_libdir}/php/modules/*.a \
@@ -1756,7 +1758,7 @@ fi
 %{_mandir}/man1/zts-phpize.1*
 %endif
 %{_mandir}/man1/php-config.1*
-%{_sysconfdir}/rpm/macros.php
+%{_macrosdir}/macros.php
 
 %files embedded
 %{_libdir}/libphp5.so
@@ -1815,6 +1817,7 @@ fi
 - Build require httpd-devel < 2.4.10 to get stock httpd-devel, not httpd24u
 - Build with system pcre on EL7
 - Use license macro for licenses when possible
+- Use correct macros directory on different releases
 
 * Thu Jan 07 2016 Carl George <carl.george@rackspace.com> - 5.5.31-1.ius
 - Latest upstream
