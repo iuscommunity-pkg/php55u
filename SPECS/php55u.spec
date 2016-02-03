@@ -8,7 +8,11 @@
 # 3) php55u-pecl-jsonc
 # 4) php55u php_bootstrap 0
 
+%if 0%{?rhel} >= 7
+%global with_system_pcre 1
+%else
 %global with_system_pcre 0
+%endif
 
 %if 0%{?rhel} >= 6
 %global with_sqlite3 1
@@ -1807,6 +1811,7 @@ fi
 - Fix isa provides on pdo_dblib
 - Only manually filter provides on < EL7
 - Build require httpd-devel < 2.4.10 to get stock httpd-devel, not httpd24u
+- Build with system pcre on EL7
 
 * Thu Jan 07 2016 Carl George <carl.george@rackspace.com> - 5.5.31-1.ius
 - Latest upstream
