@@ -521,6 +521,7 @@ Provides: %{name}-mysqli = %{version}-%{release}, %{name}-mysqli%{?_isa} = %{ver
 Provides: %{real_name}-mysqli = %{version}-%{release}, %{real_name}-mysqli%{?_isa} = %{version}-%{release}
 Provides: %{name}-pdo_mysql, %{name}-pdo_mysql%{?_isa}
 Provides: %{real_name}-pdo_mysql, %{real_name}-pdo_mysql%{?_isa}
+Conflicts: %{real_name}-mysql < %{base_ver}
 Conflicts: %{real_name}-mysqlnd < %{base_ver}
 
 %description mysqlnd
@@ -1867,6 +1868,7 @@ fi
 %changelog
 * Thu Jun 23 2016 Carl George <carl.george@rackspace.com> - 5.5.37-1.ius
 - Latest upstream
+- Ensure -mysqlnd conflicts with stock -mysql subpackage
 
 * Tue May 31 2016 Carl George <carl.george@rackspace.com> - 5.5.36-2.ius
 - Force daemonize in init script
